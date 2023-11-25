@@ -17,6 +17,7 @@ public class ocean {
     public static final String MOD_ID = "ocean";
     private static final Logger LOGGER = LogUtils.getLogger();
 
+    //very important comment
     public ocean() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
