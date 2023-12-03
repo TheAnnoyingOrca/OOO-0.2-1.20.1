@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.orca.ocean.Ocean;
 import net.orca.ocean.entity.client.OrcaModel;
 import net.orca.ocean.entity.custom.OrcaEntity;
 
@@ -20,10 +21,10 @@ import java.util.Map;
 @OnlyIn(Dist.CLIENT)
 public class OrcaEyePatchLayer extends RenderLayer<OrcaEntity, OrcaModel<OrcaEntity>> {
     private static final Map<eyePatch, ResourceLocation> LOCATION_BY_EYEPATCH = Util.make(Maps.newEnumMap(eyePatch.class), (p_117069_) -> {
-        p_117069_.put(eyePatch.MISCHIEF, new ResourceLocation("textures/entity/orca/eyepatches/eyepatch_mischief.png"));
-        p_117069_.put(eyePatch.WORRYWORT, new ResourceLocation("textures/entity/orca/eyepatches/eyepatch_worrywort"));
-        p_117069_.put(eyePatch.STYLISH, new ResourceLocation("textures/entity/orca/eyepatches/eyepatch_stylish"));
-        p_117069_.put(eyePatch.SLENDER, new ResourceLocation("textures/entity/orca/eyepatches/eyepatch_slender"));
+        p_117069_.put(eyePatch.MISCHIEF, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_mischief.png"));
+        p_117069_.put(eyePatch.WORRYWORT, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_worrywort"));
+        p_117069_.put(eyePatch.STYLISH, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_stylish"));
+        p_117069_.put(eyePatch.SLENDER, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_slender"));
     });
 
     public OrcaEyePatchLayer(RenderLayerParent<OrcaEntity, OrcaModel<OrcaEntity>> pRenderer) {
