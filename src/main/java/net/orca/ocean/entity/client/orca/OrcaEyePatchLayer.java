@@ -22,9 +22,9 @@ import java.util.Map;
 public class OrcaEyePatchLayer extends RenderLayer<OrcaEntity, OrcaModel<OrcaEntity>> {
     private static final Map<eyePatch, ResourceLocation> LOCATION_BY_EYEPATCH = Util.make(Maps.newEnumMap(eyePatch.class), (p_117069_) -> {
         p_117069_.put(eyePatch.MISCHIEF, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_mischief.png"));
-        p_117069_.put(eyePatch.WORRYWORT, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_worrywort"));
-        p_117069_.put(eyePatch.STYLISH, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_stylish"));
-        p_117069_.put(eyePatch.SLENDER, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_slender"));
+        p_117069_.put(eyePatch.WORRYWORT, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_worrywort.png"));
+        p_117069_.put(eyePatch.STYLISH, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_stylish.png"));
+        p_117069_.put(eyePatch.SLENDER, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/eyepatches/eyepatch_slender.png"));
     });
 
     public OrcaEyePatchLayer(RenderLayerParent<OrcaEntity, OrcaModel<OrcaEntity>> pRenderer) {

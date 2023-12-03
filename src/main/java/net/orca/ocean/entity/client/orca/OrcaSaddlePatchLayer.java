@@ -24,10 +24,10 @@ import java.util.Map;
 public class OrcaSaddlePatchLayer extends RenderLayer<OrcaEntity, OrcaModel<OrcaEntity>> {
     private static final Map<saddlePatch, ResourceLocation> LOCATION_BY_SADDLEPATCH = Util.make(Maps.newEnumMap(saddlePatch.class), (p_117069_) -> {
         p_117069_.put(saddlePatch.NONE, (ResourceLocation)null);
-        p_117069_.put(saddlePatch.MISCHIEF, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_mischief"));
-        p_117069_.put(saddlePatch.WORRYWORT, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_worrywort"));
-        p_117069_.put(saddlePatch.STYLISH, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_stylish"));
-        p_117069_.put(saddlePatch.SLENDER, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_slender"));
+        p_117069_.put(saddlePatch.MISCHIEF, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_mischief.png"));
+        p_117069_.put(saddlePatch.WORRYWORT, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_worrywort.png"));
+        p_117069_.put(saddlePatch.STYLISH, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_stylish.png"));
+        p_117069_.put(saddlePatch.SLENDER, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_slender.png"));
     });
 
     public OrcaSaddlePatchLayer(RenderLayerParent<OrcaEntity, OrcaModel<OrcaEntity>> pRenderer) {
