@@ -1,0 +1,12 @@
+{
+  "parent": "block/orientable",
+  "textures": {
+    "down": "ocean:block/wild_kelp_top",
+    "east": "ocean:block/budding_kelp_block",
+    "north": "ocean:block/budding_kelp_block",
+    "particle": "ocean:block/wild_kelp_block",
+    "south": "ocean:block/budding_kelp_block",
+    "up": "ocean:block/budding_kelp_top",
+    "west": "ocean:block/budding_kelp_block"
+  }
+}
