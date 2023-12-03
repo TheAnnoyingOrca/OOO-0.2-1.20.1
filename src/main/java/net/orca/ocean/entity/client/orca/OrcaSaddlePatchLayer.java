@@ -11,8 +11,10 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.entity.animal.horse.Markings;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.orca.ocean.Ocean;
 import net.orca.ocean.entity.client.OrcaModel;
 import net.orca.ocean.entity.custom.OrcaEntity;
 
@@ -22,10 +24,10 @@ import java.util.Map;
 public class OrcaSaddlePatchLayer extends RenderLayer<OrcaEntity, OrcaModel<OrcaEntity>> {
     private static final Map<saddlePatch, ResourceLocation> LOCATION_BY_SADDLEPATCH = Util.make(Maps.newEnumMap(saddlePatch.class), (p_117069_) -> {
         p_117069_.put(saddlePatch.NONE, (ResourceLocation)null);
-        p_117069_.put(saddlePatch.MISCHIEF, new ResourceLocation("textures/entity/orca/saddlepatches/saddlepatch_mischief"));
-        p_117069_.put(saddlePatch.WORRYWORT, new ResourceLocation("textures/entity/orca/saddlepatches/saddlepatch_worrywort"));
-        p_117069_.put(saddlePatch.STYLISH, new ResourceLocation("textures/entity/orca/saddlepatches/saddlepatch_stylish"));
-        p_117069_.put(saddlePatch.SLENDER, new ResourceLocation("textures/entity/orca/saddlepatches/saddlepatch_slender"));
+        p_117069_.put(saddlePatch.MISCHIEF, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_mischief"));
+        p_117069_.put(saddlePatch.WORRYWORT, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_worrywort"));
+        p_117069_.put(saddlePatch.STYLISH, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_stylish"));
+        p_117069_.put(saddlePatch.SLENDER, new ResourceLocation(Ocean.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_slender"));
     });
 
     public OrcaSaddlePatchLayer(RenderLayerParent<OrcaEntity, OrcaModel<OrcaEntity>> pRenderer) {
