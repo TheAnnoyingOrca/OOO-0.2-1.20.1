@@ -250,7 +250,7 @@ public class OrcaEntity extends WaterAnimal {
         RandomSource randomsource = pLevel.getRandom();
 
 
-        this.seteyePatchandsaddlePatch(eyePatch.values(), saddlePatch.values(), randomsource);
+        this.seteyePatchandsaddlePatch(saddlePatch.values(), randomsource);
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 }
