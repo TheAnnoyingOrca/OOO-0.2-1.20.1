@@ -38,6 +38,7 @@ import net.minecraft.world.phys.Vec3;
 import net.orca.ocean.entity.client.orca.eyePatch;
 import net.orca.ocean.entity.client.orca.saddlePatch;
 import net.orca.ocean.entity.goals.OrcaJumpGoal;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 
@@ -81,7 +82,7 @@ public class OrcaEntity extends WaterAnimal {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new BreathAirGoal(this));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
+        this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1.5D, 10));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(5, new OrcaJumpGoal(this, 10));
@@ -99,10 +100,10 @@ public class OrcaEntity extends WaterAnimal {
     public static AttributeSupplier.Builder createMobAttributes() {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 120)
-                .add(Attributes.MOVEMENT_SPEED, (double) 5F)
+                .add(Attributes.MOVEMENT_SPEED, (double) 2f)
                 .add(Attributes.ARMOR_TOUGHNESS, 0.1f)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5f)
-                .add(Attributes.ATTACK_DAMAGE, 2F);
+                .add(Attributes.ATTACK_DAMAGE, 20F);
     }
 
     protected PathNavigation createNavigation(Level pLevel) {
@@ -207,14 +208,7 @@ public class OrcaEntity extends WaterAnimal {
     /**
      * Handles an entity event fired from {@link net.minecraft.world.level.Level#broadcastEntityEvent}.
      */
-    public void handleEntityEvent(byte pId) {
-        if (pId == 38) {
-            this.addParticlesAroundSelf(ParticleTypes.HAPPY_VILLAGER);
-        } else {
-            super.handleEntityEvent(pId);
-        }
 
-    }
 
     private void addParticlesAroundSelf(ParticleOptions pParticleOption) {
         for(int i = 0; i < 7; ++i) {
@@ -222,6 +216,21 @@ public class OrcaEntity extends WaterAnimal {
             double d1 = this.random.nextGaussian() * 0.01D;
             double d2 = this.random.nextGaussian() * 0.01D;
             this.level.addParticle(pParticleOption, this.getRandomX(1.0D), this.getRandomY() + 0.2D, this.getRandomZ(1.0D), d0, d1, d2);
+        }
+
+    }
+
+
+    public void travel(@NotNull Vec3 pTravelVector) {
+        if (this.isEffectiveAi() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), pTravelVector);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            if (this.getTarget() == null) {
+                this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+            }
+        } else {
+            super.travel(pTravelVector);
         }
 
     }
@@ -248,9 +257,18 @@ public class OrcaEntity extends WaterAnimal {
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         RandomSource randomsource = pLevel.getRandom();
+        eyePatch eyepatch;
+        {
+            eyepatch = Util.getRandom(eyePatch.values(), randomsource);
+        }
+        saddlePatch saddlepatch;
+        {
+            saddlepatch = Util.getRandom(saddlePatch.values(), randomsource);
+        }
 
 
-        this.seteyePatchandsaddlePatch(saddlePatch.values(), randomsource);
+
+        this.seteyePatchandsaddlePatch(Util.getRandom(eyePatch.values(), randomsource), Util.getRandom(saddlePatch.values(), randomsource));
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 }
