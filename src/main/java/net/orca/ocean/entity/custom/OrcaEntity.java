@@ -1,12 +1,16 @@
 package net.orca.ocean.entity.custom;
 
+import net.minecraft.Util;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -29,10 +33,13 @@ import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.orca.ocean.entity.client.orca.eyePatch;
 import net.orca.ocean.entity.client.orca.saddlePatch;
 import net.orca.ocean.entity.goals.OrcaJumpGoal;
+
+import javax.annotation.Nullable;
 
 public class OrcaEntity extends WaterAnimal {
 
@@ -227,14 +234,23 @@ public class OrcaEntity extends WaterAnimal {
         return this.entityData.get(DATA_ID_TYPE_VARIANT);
     }
 
-    private void setVariantAndMarkings(Variant pVariant, Markings pMarking) {
-        this.setTypeVariant(pVariant.getId() & 255 | pMarking.getId() << 8 & '\uff00');
+    private void seteyePatchandsaddlePatch(eyePatch peyePatch, saddlePatch psaddlePatch) {
+        this.setTypeVariant(peyePatch.getId() & 255 | psaddlePatch.getId() << 8 & '\uff00');
     }
 
-    public Object geteyePatch() {
+
+    public eyePatch geteyePatch() {
         return eyePatch.byId((this.getTypeVariant() & '\uff00') >> 8);
     }
 
     public saddlePatch getsaddlePatch() { return saddlePatch.byId((this.getTypeVariant() & '\uff00') >> 8);
+    }
+    @Nullable
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+        RandomSource randomsource = pLevel.getRandom();
+
+
+        this.seteyePatchandsaddlePatch(eyePatch.values(), saddlePatch.values(), randomsource);
+        return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 }
