@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum eyePatch {
-    MISCHIEF(1),
+    MISCHIEF(5),
     WORRYWORT(2),
-    STYLISH(3),
-    SLENDER(4);
+    STYLISH(6),
+    SLENDER(1);
 
     private static final net.orca.ocean.entity.client.orca.eyePatch[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(net.orca.ocean.entity.client.orca.eyePatch::getId)).toArray((p_30873_) -> {
         return new net.orca.ocean.entity.client.orca.eyePatch[p_30873_];

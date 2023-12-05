@@ -5,9 +5,9 @@ import java.util.Comparator;
 
 public enum saddlePatch {
     NONE(0),
-    MISCHIEF(1),
-    WORRYWORT(2),
-    STYLISH(3),
+    MISCHIEF(8),
+    WORRYWORT(3),
+    STYLISH(7),
     SLENDER(4);
 
     private static final saddlePatch[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(saddlePatch::getId)).toArray((p_30873_) -> {

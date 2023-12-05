@@ -25,8 +25,6 @@ import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.animal.horse.Horse;
-import net.minecraft.world.entity.animal.horse.Markings;
-import net.minecraft.world.entity.animal.horse.Variant;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Guardian;
@@ -44,9 +42,9 @@ import javax.annotation.Nullable;
 
 public class OrcaEntity extends WaterAnimal {
 
-    private static final EntityDataAccessor<Integer> MOISTNESS_LEVEL = SynchedEntityData.defineId(Dolphin.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> MOISTNESS_LEVEL = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
-    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(Horse.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
     public static final int TOTAL_AIR_SUPPLY = 4800;
     private static final int TOTAL_MOISTNESS_LEVEL = 2400;
@@ -76,7 +74,10 @@ public class OrcaEntity extends WaterAnimal {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(MOISTNESS_LEVEL, 2400);
+
+        this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
     }
+
 
     @Override
     protected void registerGoals() {
@@ -234,41 +235,43 @@ public class OrcaEntity extends WaterAnimal {
         }
 
     }
-
-    private void setTypeVariant(int pTypeVariant) {
-        this.entityData.set(DATA_ID_TYPE_VARIANT, pTypeVariant);
+    public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
+        super.addAdditionalSaveData(pCompound);
+        pCompound.putInt("Pattern", this.getTypePattern());
+    }
+    public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
+        super.readAdditionalSaveData(pCompound);
+        this.setTypePattern(pCompound.getInt("Pattern"));
     }
 
-    private int getTypeVariant() {
+    private void setTypePattern(int pTypePattern) {
+        this.entityData.set(DATA_ID_TYPE_VARIANT, pTypePattern);
+    }
+
+    private int getTypePattern() {
         return this.entityData.get(DATA_ID_TYPE_VARIANT);
     }
 
     private void seteyePatchandsaddlePatch(eyePatch peyePatch, saddlePatch psaddlePatch) {
-        this.setTypeVariant(peyePatch.getId() & 255 | psaddlePatch.getId() << 8 & '\uff00');
+        this.setTypePattern(peyePatch.getId() << 8 & '\uff00'| psaddlePatch.getId() << 8 & '\uff00');
     }
 
 
     public eyePatch geteyePatch() {
-        return eyePatch.byId((this.getTypeVariant() & '\uff00') >> 8);
+        return eyePatch.byId((this.getTypePattern() & '\uff00') >> 8);
     }
 
-    public saddlePatch getsaddlePatch() { return saddlePatch.byId((this.getTypeVariant() & '\uff00') >> 8);
+    public saddlePatch getsaddlePatch() {
+        return saddlePatch.byId((this.getTypePattern() & '\uff00') >> 8);
     }
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, DifficultyInstance pDifficulty, MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         RandomSource randomsource = pLevel.getRandom();
-        eyePatch eyepatch;
-        {
-            eyepatch = Util.getRandom(eyePatch.values(), randomsource);
-        }
-        saddlePatch saddlepatch;
-        {
-            saddlepatch = Util.getRandom(saddlePatch.values(), randomsource);
-        }
 
 
 
         this.seteyePatchandsaddlePatch(Util.getRandom(eyePatch.values(), randomsource), Util.getRandom(saddlePatch.values(), randomsource));
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
+
 }
