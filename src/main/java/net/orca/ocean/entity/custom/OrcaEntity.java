@@ -117,9 +117,9 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
 
     public static AttributeSupplier.Builder createMobAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 120)
+                .add(Attributes.MAX_HEALTH, 180)
                 .add(Attributes.MOVEMENT_SPEED, (double) 2f)
-                .add(Attributes.ARMOR_TOUGHNESS, 0.1f)
+                .add(Attributes.ARMOR_TOUGHNESS, 2.0f)
                 .add(Attributes.ATTACK_KNOCKBACK, 0.5f)
                 .add(Attributes.ATTACK_DAMAGE, 20F);
     }
