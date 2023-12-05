@@ -12,6 +12,8 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -20,14 +22,18 @@ import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.Dolphin;
 import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.animal.Wolf;
 import net.minecraft.world.entity.animal.horse.Horse;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Guardian;
+import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -39,12 +45,18 @@ import net.orca.ocean.entity.goals.OrcaJumpGoal;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
+import java.util.EnumSet;
+import java.util.UUID;
 
-public class OrcaEntity extends WaterAnimal {
+public class OrcaEntity extends WaterAnimal implements NeutralMob{
 
     private static final EntityDataAccessor<Integer> MOISTNESS_LEVEL = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
     private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
+
+    private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
+
+    static final TargetingConditions SWIM_WITH_PLAYER_TARGETING = TargetingConditions.forNonCombat().range(10.0D).ignoreLineOfSight();
 
     public static final int TOTAL_AIR_SUPPLY = 4800;
     private static final int TOTAL_MOISTNESS_LEVEL = 2400;
@@ -76,6 +88,8 @@ public class OrcaEntity extends WaterAnimal {
         this.entityData.define(MOISTNESS_LEVEL, 2400);
 
         this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
+
+        this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
     }
 
 
@@ -83,20 +97,23 @@ public class OrcaEntity extends WaterAnimal {
     protected void registerGoals() {
         this.goalSelector.addGoal(0, new BreathAirGoal(this));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(1, new RandomSwimmingGoal(this, 1.5D, 10));
+        this.goalSelector.addGoal(2, new OrcaEntity.OrcaEntitySwimWithPlayerGoal(this, 4.0D));
+        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.2D, 10));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(5, new OrcaJumpGoal(this, 10));
+        this.goalSelector.addGoal(4, new OrcaJumpGoal(this, 1));
         this.goalSelector.addGoal(6, new MeleeAttackGoal(this, (double) 1.2F, true));
         this.goalSelector.addGoal(8, new FollowBoatGoal(this));
-        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Guardian.class, true));
-        this.targetSelector.addGoal(7, new NearestAttackableTargetGoal<>(this, Drowned.class, true));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Guardian.class)).setAlertOthers());
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Drowned.class)).setAlertOthers());
-
-
-
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Guardian.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Drowned.class, true));
+        this.targetSelector.addGoal(7, (new HurtByTargetGoal(this)).setAlertOthers());
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
+        this.targetSelector.addGoal(8, new ResetUniversalAngerTargetGoal<>(this, true));
     }
+
+
+
+
 
     public static AttributeSupplier.Builder createMobAttributes() {
         return Mob.createMobAttributes()
@@ -235,6 +252,8 @@ public class OrcaEntity extends WaterAnimal {
         }
 
     }
+
+
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Pattern", this.getTypePattern());
@@ -274,4 +293,94 @@ public class OrcaEntity extends WaterAnimal {
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 
+    @Override
+    public int getRemainingPersistentAngerTime() {
+        return this.entityData.get(DATA_REMAINING_ANGER_TIME);
+    }
+
+    public void setRemainingPersistentAngerTime(int pTime) {
+        this.entityData.set(DATA_REMAINING_ANGER_TIME, pTime);
+    }
+
+
+
+    @org.jetbrains.annotations.Nullable
+    @Override
+    public UUID getPersistentAngerTarget() {
+        return null;
+    }
+
+    @Override
+    public void setPersistentAngerTarget(@org.jetbrains.annotations.Nullable UUID pPersistentAngerTarget) {
+
+    }
+
+    @Override
+    public void startPersistentAngerTimer() {
+
+    }
+    static class OrcaEntitySwimWithPlayerGoal extends Goal {
+        private final OrcaEntity orcaentity;
+        private final double speedModifier;
+        @Nullable
+        private Player player;
+
+        OrcaEntitySwimWithPlayerGoal(OrcaEntity pOrcaEntity, double pSpeedModifier) {
+            this.orcaentity = pOrcaEntity;
+            this.speedModifier = pSpeedModifier;
+            this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        }
+
+        /**
+         * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
+         * method as well.
+         */
+        public boolean canUse() {
+            this.player = this.orcaentity.level.getNearestPlayer(OrcaEntity.SWIM_WITH_PLAYER_TARGETING, this.orcaentity);
+            if (this.player == null) {
+                return false;
+            } else {
+                return this.player.isSwimming() && this.orcaentity.getTarget() != this.player;
+            }
+        }
+
+        /**
+         * Returns whether an in-progress EntityAIBase should continue executing
+         */
+        public boolean canContinueToUse() {
+            return this.player != null && this.player.isSwimming() && this.orcaentity.distanceToSqr(this.player) < 256.0D;
+        }
+
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
+        public void start() {
+            this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
+        }
+
+        /**
+         * Reset the task's internal state. Called when this task is interrupted by another one
+         */
+        public void stop() {
+            this.player = null;
+            this.orcaentity.getNavigation().stop();
+        }
+
+        /**
+         * Keep ticking a continuous task that has already been started
+         */
+        public void tick() {
+            this.orcaentity.getLookControl().setLookAt(this.player, (float)(this.orcaentity.getMaxHeadYRot() + 20), (float)this.orcaentity.getMaxHeadXRot());
+            if (this.orcaentity.distanceToSqr(this.player) < 6.25D) {
+                this.orcaentity.getNavigation().stop();
+            } else {
+                this.orcaentity.getNavigation().moveTo(this.player, this.speedModifier);
+            }
+
+            if (this.player.isSwimming() && this.player.level.random.nextInt(6) == 0) {
+                this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
+            }
+
+        }
+    }
 }
