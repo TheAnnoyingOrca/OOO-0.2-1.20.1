@@ -11,6 +11,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -23,19 +25,20 @@ import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.TargetGoal;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.navigation.WaterBoundPathNavigation;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
-import net.minecraft.world.entity.animal.Dolphin;
-import net.minecraft.world.entity.animal.WaterAnimal;
-import net.minecraft.world.entity.animal.Wolf;
-import net.minecraft.world.entity.animal.horse.Horse;
+import net.minecraft.world.entity.ai.goal.TemptGoal;
+import net.minecraft.world.entity.animal.*;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
@@ -48,7 +51,7 @@ import javax.annotation.Nullable;
 import java.util.EnumSet;
 import java.util.UUID;
 
-public class OrcaEntity extends WaterAnimal implements NeutralMob{
+public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     private static final EntityDataAccessor<Integer> MOISTNESS_LEVEL = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
@@ -58,8 +61,13 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
 
     static final TargetingConditions SWIM_WITH_PLAYER_TARGETING = TargetingConditions.forNonCombat().range(10.0D).ignoreLineOfSight();
 
+    private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.COD, Items.SALMON);
+
+    private static final EntityDataAccessor<Boolean> DATA_TRUSTING = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.BOOLEAN);
+
     public static final int TOTAL_AIR_SUPPLY = 4800;
     private static final int TOTAL_MOISTNESS_LEVEL = 2400;
+
     public OrcaEntity(EntityType<? extends WaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
@@ -68,6 +76,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
 
     }
 
+    @Nullable
+    private OrcaEntity.OrcaTemptGoal temptGoal;
 
     public boolean canBreatheUnderwater() {
         return false;
@@ -83,6 +93,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
     public void setMoisntessLevel(int pMoistnessLevel) {
         this.entityData.set(MOISTNESS_LEVEL, pMoistnessLevel);
     }
+
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(MOISTNESS_LEVEL, 2400);
@@ -90,18 +101,29 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
         this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
 
         this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
+        this.entityData.define(DATA_TRUSTING, false);
+    }
+
+    boolean isTrusting() {
+        return this.entityData.get(DATA_TRUSTING);
+    }
+
+    private void setTrusting(boolean pTrusting) {
+        this.entityData.set(DATA_TRUSTING, pTrusting);
     }
 
 
     @Override
     protected void registerGoals() {
+
+
         this.goalSelector.addGoal(0, new BreathAirGoal(this));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(2, new OrcaEntity.OrcaEntitySwimWithPlayerGoal(this, 4.0D));
-        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.2D, 10));
+        this.goalSelector.addGoal(2, new OrcaEntity.OrcaEntitySwimWithPlayerGoal(this, 3.5D));
+        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(4, new OrcaJumpGoal(this, 1));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 14.0F));
+        this.goalSelector.addGoal(4, new OrcaJumpGoal(this, 6));
         this.goalSelector.addGoal(6, new MeleeAttackGoal(this, (double) 1.2F, true));
         this.goalSelector.addGoal(8, new FollowBoatGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Guardian.class, true));
@@ -109,10 +131,11 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
         this.targetSelector.addGoal(7, (new HurtByTargetGoal(this)).setAlertOthers());
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
         this.targetSelector.addGoal(8, new ResetUniversalAngerTargetGoal<>(this, true));
+
     }
-
-
-
+    public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
+        return !this.isTrusting() && this.tickCount > 2400;
+    }
 
 
     public static AttributeSupplier.Builder createMobAttributes() {
@@ -129,7 +152,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
     }
 
     public boolean doHurtTarget(Entity pEntity) {
-        boolean flag = pEntity.hurt(DamageSource.mobAttack(this), (float)((int)this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
+        boolean flag = pEntity.hurt(DamageSource.mobAttack(this), (float) ((int) this.getAttributeValue(Attributes.ATTACK_DAMAGE)));
         if (flag) {
             this.doEnchantDamageEffects(this, pEntity);
             this.playSound(SoundEvents.DOLPHIN_ATTACK, 1.0F, 1.0F);
@@ -187,6 +210,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
         }
 
     }
+
     public void tick() {
         super.tick();
         if (this.isNoAi()) {
@@ -201,7 +225,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
                 }
 
                 if (this.onGround) {
-                    this.setDeltaMovement(this.getDeltaMovement().add((double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F), 0.5D, (double)((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F)));
+                    this.setDeltaMovement(this.getDeltaMovement().add((double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F), 0.5D, (double) ((this.random.nextFloat() * 2.0F - 1.0F) * 0.2F)));
                     this.setYRot(this.random.nextFloat() * 360.0F);
                     this.onGround = false;
                     this.hasImpulse = true;
@@ -210,13 +234,13 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
 
             if (this.level.isClientSide && this.isInWater() && this.getDeltaMovement().lengthSqr() > 0.03D) {
                 Vec3 vec3 = this.getViewVector(0.0F);
-                float f = Mth.cos(this.getYRot() * ((float)Math.PI / 180F)) * 0.3F;
-                float f1 = Mth.sin(this.getYRot() * ((float)Math.PI / 180F)) * 0.3F;
+                float f = Mth.cos(this.getYRot() * ((float) Math.PI / 180F)) * 0.3F;
+                float f1 = Mth.sin(this.getYRot() * ((float) Math.PI / 180F)) * 0.3F;
                 float f2 = 1.2F - this.random.nextFloat() * 0.7F;
 
-                for(int i = 0; i < 2; ++i) {
-                    this.level.addParticle(ParticleTypes.DOLPHIN, this.getX() - vec3.x * (double)f2 + (double)f, this.getY() - vec3.y, this.getZ() - vec3.z * (double)f2 + (double)f1, 0.0D, 0.0D, 0.0D);
-                    this.level.addParticle(ParticleTypes.DOLPHIN, this.getX() - vec3.x * (double)f2 - (double)f, this.getY() - vec3.y, this.getZ() - vec3.z * (double)f2 - (double)f1, 0.0D, 0.0D, 0.0D);
+                for (int i = 0; i < 2; ++i) {
+                    this.level.addParticle(ParticleTypes.DOLPHIN, this.getX() - vec3.x * (double) f2 + (double) f, this.getY() - vec3.y, this.getZ() - vec3.z * (double) f2 + (double) f1, 0.0D, 0.0D, 0.0D);
+                    this.level.addParticle(ParticleTypes.DOLPHIN, this.getX() - vec3.x * (double) f2 - (double) f, this.getY() - vec3.y, this.getZ() - vec3.z * (double) f2 - (double) f1, 0.0D, 0.0D, 0.0D);
                 }
             }
 
@@ -229,7 +253,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
 
 
     private void addParticlesAroundSelf(ParticleOptions pParticleOption) {
-        for(int i = 0; i < 7; ++i) {
+        for (int i = 0; i < 7; ++i) {
             double d0 = this.random.nextGaussian() * 0.01D;
             double d1 = this.random.nextGaussian() * 0.01D;
             double d2 = this.random.nextGaussian() * 0.01D;
@@ -257,10 +281,13 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Pattern", this.getTypePattern());
+        pCompound.putBoolean("Trusting", this.isTrusting());
     }
+
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.setTypePattern(pCompound.getInt("Pattern"));
+        this.setTrusting(pCompound.getBoolean("Trusting"));
     }
 
     private void setTypePattern(int pTypePattern) {
@@ -272,7 +299,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
     }
 
     private void seteyePatchandsaddlePatch(eyePatch peyePatch, saddlePatch psaddlePatch) {
-        this.setTypePattern(peyePatch.getId() << 8 & '\uff00'| psaddlePatch.getId() << 8 & '\uff00');
+        this.setTypePattern(peyePatch.getId() << 8 & '\uff00' | psaddlePatch.getId() << 8 & '\uff00');
     }
 
 
@@ -283,10 +310,10 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
     public saddlePatch getsaddlePatch() {
         return saddlePatch.byId((this.getTypePattern() & '\uff00') >> 8);
     }
+
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         RandomSource randomsource = pLevel.getRandom();
-
 
 
         this.seteyePatchandsaddlePatch(Util.getRandom(eyePatch.values(), randomsource), Util.getRandom(saddlePatch.values(), randomsource));
@@ -301,7 +328,6 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
     public void setRemainingPersistentAngerTime(int pTime) {
         this.entityData.set(DATA_REMAINING_ANGER_TIME, pTime);
     }
-
 
 
     @org.jetbrains.annotations.Nullable
@@ -319,6 +345,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
     public void startPersistentAngerTimer() {
 
     }
+
     static class OrcaEntitySwimWithPlayerGoal extends Goal {
         private final OrcaEntity orcaentity;
         private final double speedModifier;
@@ -370,8 +397,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
          * Keep ticking a continuous task that has already been started
          */
         public void tick() {
-            this.orcaentity.getLookControl().setLookAt(this.player, (float)(this.orcaentity.getMaxHeadYRot() + 20), (float)this.orcaentity.getMaxHeadXRot());
-            if (this.orcaentity.distanceToSqr(this.player) < 6.25D) {
+            this.orcaentity.getLookControl().setLookAt(this.player, (float) (this.orcaentity.getMaxHeadYRot() + 20), (float) this.orcaentity.getMaxHeadXRot());
+            if (this.orcaentity.distanceToSqr(this.player) < 12.25D) {
                 this.orcaentity.getNavigation().stop();
             } else {
                 this.orcaentity.getNavigation().moveTo(this.player, this.speedModifier);
@@ -381,6 +408,114 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob{
                 this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
             }
 
+        }
+    }
+
+    public boolean isFood(ItemStack pStack) {
+        return TEMPT_INGREDIENT.test(pStack);
+    }
+
+    public @NotNull InteractionResult mobInteract(Player pPlayer, @NotNull InteractionHand pHand) {
+        ItemStack itemstack = pPlayer.getItemInHand(pHand);
+        if ((this.temptGoal == null || this.temptGoal.isRunning()) && !this.isTrusting() && this.isFood(itemstack) && pPlayer.distanceToSqr(this) < 9.0D) {
+            this.usePlayerItem(pPlayer, pHand, itemstack);
+            if (!this.level.isClientSide) {
+                if (this.random.nextInt(12) == 0) {
+                    this.setTrusting(true);
+                    this.spawnTrustingParticles(true);
+                    this.level.broadcastEntityEvent(this, (byte) 41);
+                } else {
+                    this.spawnTrustingParticles(false);
+                    this.level.broadcastEntityEvent(this, (byte) 40);
+                }
+            }
+
+            return InteractionResult.sidedSuccess(this.level.isClientSide);
+        } else {
+            return super.mobInteract(pPlayer, pHand);
+        }
+    }
+
+    private void usePlayerItem(Player pPlayer, InteractionHand pHand, ItemStack itemstack) {
+
+    }
+
+    public void handleEntityEvent(byte pId) {
+        if (pId == 41) {
+            this.spawnTrustingParticles(true);
+        } else if (pId == 40) {
+            this.spawnTrustingParticles(false);
+        } else {
+            super.handleEntityEvent(pId);
+        }
+
+    }
+
+    private void spawnTrustingParticles(boolean pIsTrusted) {
+        ParticleOptions particleoptions = ParticleTypes.HEART;
+        if (!pIsTrusted) {
+            particleoptions = ParticleTypes.SMOKE;
+        }
+
+        for (int i = 0; i < 7; ++i) {
+            double d0 = this.random.nextGaussian() * 0.02D;
+            double d1 = this.random.nextGaussian() * 0.02D;
+            double d2 = this.random.nextGaussian() * 0.02D;
+            this.level.addParticle(particleoptions, this.getRandomX(1.0D), this.getRandomY() + 0.5D, this.getRandomZ(1.0D), d0, d1, d2);
+        }
+
+    }
+
+    static class OrcaTemptGoal extends TemptGoal {
+        private final OrcaEntity orcaentity;
+
+        public OrcaTemptGoal(OrcaEntity pOrcaEntity, double pSpeedModifier, Ingredient pItems, boolean pCanScare) {
+            super(pOrcaEntity, pSpeedModifier, pItems, pCanScare);
+            this.orcaentity = pOrcaEntity;
+        }
+
+    }
+    public class OwnerHurtByTargetGoal extends TargetGoal {
+        private final OrcaEntity orcaentity;
+        private LivingEntity ownerLastHurtBy;
+        private int timestamp;
+
+        public OwnerHurtByTargetGoal(OrcaEntity pOrcaEntity) {
+            super(pOrcaEntity, false);
+            this.orcaentity = pOrcaEntity;
+            this.setFlags(EnumSet.of(Goal.Flag.TARGET));
+        }
+
+        /**
+         * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
+         * method as well.
+         */
+        public boolean canUse() {
+            if (this.orcaentity.isTrusting()) {
+                LivingEntity livingentity = this.orcaentity.getOwner();
+                if (livingentity == null) {
+                    return false;
+                } else {
+                    this.ownerLastHurtBy = livingentity.getLastHurtByMob();
+                    int i = livingentity.getLastHurtByMobTimestamp();
+                    return i != this.timestamp && this.canAttack(this.ownerLastHurtBy, TargetingConditions.DEFAULT) && this.orcaentity.wantsToAttack(this.ownerLastHurtBy, livingentity);
+                }
+            } else {
+                return false;
+            }
+        }
+
+        /**
+         * Execute a one shot task or start executing a continuous task
+         */
+        public void start() {
+            this.mob.setTarget(this.ownerLastHurtBy);
+            LivingEntity livingentity = this.orcaentity.getOwner();
+            if (livingentity != null) {
+                this.timestamp = livingentity.getLastHurtByMobTimestamp();
+            }
+
+            super.start();
         }
     }
 }
