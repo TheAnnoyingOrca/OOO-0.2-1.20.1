@@ -1,12 +1,16 @@
 package net.orca.ocean.entity.custom;
 
+import com.google.common.collect.Lists;
 import net.minecraft.Util;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -49,7 +53,10 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
 import java.util.EnumSet;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
@@ -64,9 +71,21 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
     private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.COD, Items.SALMON);
 
     private static final EntityDataAccessor<Boolean> DATA_TRUSTING = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.BYTE);
 
+    private static final int FLAG_DEFENDING = 128;
     public static final int TOTAL_AIR_SUPPLY = 4800;
     private static final int TOTAL_MOISTNESS_LEVEL = 2400;
+
+    private static final EntityDataAccessor<Optional<UUID>> DATA_TRUSTED_ID_0 = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+    private static final EntityDataAccessor<Optional<UUID>> DATA_TRUSTED_ID_1 = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.OPTIONAL_UUID);
+    private static final Predicate<Entity> TRUSTED_TARGET_SELECTOR = (p_28521_) -> {
+        if (!(p_28521_ instanceof LivingEntity livingentity)) {
+            return false;
+        } else {
+            return livingentity.getLastHurtMob() != null && livingentity.getLastHurtMobTimestamp() < livingentity.tickCount + 600;
+        }
+    };
 
     public OrcaEntity(EntityType<? extends WaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -74,6 +93,18 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
         this.setCanPickUpLoot(true);
 
+    }
+    private void setFlag(int pFlagId, boolean pValue) {
+        if (pValue) {
+            this.entityData.set(DATA_FLAGS_ID, (byte)(this.entityData.get(DATA_FLAGS_ID) | pFlagId));
+        } else {
+            this.entityData.set(DATA_FLAGS_ID, (byte)(this.entityData.get(DATA_FLAGS_ID) & ~pFlagId));
+        }
+
+    }
+
+    private boolean getFlag(int pFlagId) {
+        return (this.entityData.get(DATA_FLAGS_ID) & pFlagId) != 0;
     }
 
     @Nullable
@@ -102,6 +133,9 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
         this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
         this.entityData.define(DATA_TRUSTING, false);
+
+        this.entityData.define(DATA_TRUSTED_ID_0, Optional.empty());
+        this.entityData.define(DATA_TRUSTED_ID_1, Optional.empty());
     }
 
     boolean isTrusting() {
@@ -131,7 +165,13 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         this.targetSelector.addGoal(7, (new HurtByTargetGoal(this)).setAlertOthers());
         this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
         this.targetSelector.addGoal(8, new ResetUniversalAngerTargetGoal<>(this, true));
+        this.targetSelector.addGoal(1, new OrcaEntity.DefendTrustedTargetGoal(LivingEntity.class, false, false, (p_28580_) -> {
+            return TRUSTED_TARGET_SELECTOR.test(p_28580_) && !this.trusts(p_28580_.getUUID());
+        }));
 
+    }
+    void clearStates() {
+        this.setDefending(false);
     }
     public boolean removeWhenFarAway(double pDistanceToClosestPlayer) {
         return !this.isTrusting() && this.tickCount > 2400;
@@ -282,12 +322,26 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         super.addAdditionalSaveData(pCompound);
         pCompound.putInt("Pattern", this.getTypePattern());
         pCompound.putBoolean("Trusting", this.isTrusting());
+        List<UUID> list = this.getTrustedUUIDs();
+        ListTag listtag = new ListTag();
+
+        for(UUID uuid : list) {
+            if (uuid != null) {
+                listtag.add(NbtUtils.createUUID(uuid));
+            }
+        }
+        pCompound.put("Trusted", listtag);
     }
 
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.setTypePattern(pCompound.getInt("Pattern"));
         this.setTrusting(pCompound.getBoolean("Trusting"));
+        ListTag listtag = pCompound.getList("Trusted", 11);
+
+        for(int i = 0; i < listtag.size(); ++i) {
+            this.addTrustedUUID(NbtUtils.loadUUID(listtag.get(i)));
+        }
     }
 
     private void setTypePattern(int pTypePattern) {
@@ -422,6 +476,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
             if (!this.level.isClientSide) {
                 if (this.random.nextInt(12) == 0) {
                     this.setTrusting(true);
+                    this.addTrustedUUID(pPlayer.getUUID());
                     this.spawnTrustingParticles(true);
                     this.level.broadcastEntityEvent(this, (byte) 41);
                 } else {
@@ -475,15 +530,15 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         }
 
     }
-    public class OwnerHurtByTargetGoal extends TargetGoal {
-        private final OrcaEntity orcaentity;
-        private LivingEntity ownerLastHurtBy;
+    class DefendTrustedTargetGoal extends NearestAttackableTargetGoal<LivingEntity> {
+        @Nullable
+        private LivingEntity trustedLastHurtBy;
+        @Nullable
+        private LivingEntity trustedLastHurt;
         private int timestamp;
 
-        public OwnerHurtByTargetGoal(OrcaEntity pOrcaEntity) {
-            super(pOrcaEntity, false);
-            this.orcaentity = pOrcaEntity;
-            this.setFlags(EnumSet.of(Goal.Flag.TARGET));
+        public DefendTrustedTargetGoal(Class<LivingEntity> pTargetType, boolean pMustSee, @Nullable boolean pMustReach, Predicate<LivingEntity> pPredicate) {
+            super(OrcaEntity.this, pTargetType, 10, pMustSee, pMustReach, pPredicate);
         }
 
         /**
@@ -491,16 +546,22 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
          * method as well.
          */
         public boolean canUse() {
-            if (this.orcaentity.isTrusting()) {
-                LivingEntity livingentity = this.orcaentity.getOwner();
-                if (livingentity == null) {
-                    return false;
-                } else {
-                    this.ownerLastHurtBy = livingentity.getLastHurtByMob();
-                    int i = livingentity.getLastHurtByMobTimestamp();
-                    return i != this.timestamp && this.canAttack(this.ownerLastHurtBy, TargetingConditions.DEFAULT) && this.orcaentity.wantsToAttack(this.ownerLastHurtBy, livingentity);
-                }
+            if (this.randomInterval > 0 && this.mob.getRandom().nextInt(this.randomInterval) != 0) {
+                return false;
             } else {
+                for(UUID uuid : OrcaEntity.this.getTrustedUUIDs()) {
+                    if (uuid != null && OrcaEntity.this.level instanceof ServerLevel) {
+                        Entity entity = ((ServerLevel)OrcaEntity.this.level).getEntity(uuid);
+                        if (entity instanceof LivingEntity) {
+                            LivingEntity livingentity = (LivingEntity)entity;
+                            this.trustedLastHurt = livingentity;
+                            this.trustedLastHurtBy = livingentity.getLastHurtByMob();
+                            int i = livingentity.getLastHurtByMobTimestamp();
+                            return i != this.timestamp && this.canAttack(this.trustedLastHurtBy, this.targetConditions);
+                        }
+                    }
+                }
+
                 return false;
             }
         }
@@ -509,13 +570,48 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
          * Execute a one shot task or start executing a continuous task
          */
         public void start() {
-            this.mob.setTarget(this.ownerLastHurtBy);
-            LivingEntity livingentity = this.orcaentity.getOwner();
-            if (livingentity != null) {
-                this.timestamp = livingentity.getLastHurtByMobTimestamp();
+            this.setTarget(this.trustedLastHurtBy);
+            this.target = this.trustedLastHurtBy;
+            if (this.trustedLastHurt != null) {
+                this.timestamp = this.trustedLastHurt.getLastHurtByMobTimestamp();
             }
 
+            OrcaEntity.this.setDefending(true);
             super.start();
         }
+    }
+    List<UUID> getTrustedUUIDs() {
+        List<UUID> list = Lists.newArrayList();
+        list.add(this.entityData.get(DATA_TRUSTED_ID_0).orElse((UUID)null));
+        list.add(this.entityData.get(DATA_TRUSTED_ID_1).orElse((UUID)null));
+        return list;
+    }
+
+    void addTrustedUUID(@Nullable UUID pUuid) {
+        if (this.entityData.get(DATA_TRUSTED_ID_0).isPresent()) {
+            this.entityData.set(DATA_TRUSTED_ID_1, Optional.ofNullable(pUuid));
+        } else {
+            this.entityData.set(DATA_TRUSTED_ID_0, Optional.ofNullable(pUuid));
+        }
+
+    }
+    public void setTarget(@Nullable LivingEntity pLivingEntity) {
+        if (this.isDefending() && pLivingEntity == null) {
+            this.setDefending(false);
+        }
+
+        super.setTarget(pLivingEntity);
+    }
+
+    boolean trusts(UUID pUuid) {
+        return this.getTrustedUUIDs().contains(pUuid);
+    }
+
+
+    boolean isDefending() {
+        return this.getFlag(128);
+    }
+    void setDefending(boolean pDefending) {
+        this.setFlag(128, pDefending);
     }
 }
