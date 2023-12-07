@@ -14,7 +14,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 
 public class OrcaModel<T extends Entity> extends HierarchicalModel<T> {
-	private final ModelPart head;
+	public final ModelPart head;
 	private final ModelPart tail;
 	private final ModelPart fluke;
 

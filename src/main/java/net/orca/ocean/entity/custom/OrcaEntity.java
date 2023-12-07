@@ -40,11 +40,13 @@ import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Guardian;
 import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
 import net.orca.ocean.entity.client.orca.eyePatch;
 import net.orca.ocean.entity.client.orca.saddlePatch;
@@ -86,6 +88,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
             return livingentity.getLastHurtMob() != null && livingentity.getLastHurtMobTimestamp() < livingentity.tickCount + 600;
         }
     };
+
+    private int ticksSinceEaten;
 
     public OrcaEntity(EntityType<? extends WaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -136,6 +140,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
         this.entityData.define(DATA_TRUSTED_ID_0, Optional.empty());
         this.entityData.define(DATA_TRUSTED_ID_1, Optional.empty());
+
+        this.entityData.define(DATA_FLAGS_ID, (byte)0);
     }
 
     boolean isTrusting() {
@@ -144,6 +150,10 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     private void setTrusting(boolean pTrusting) {
         this.entityData.set(DATA_TRUSTING, pTrusting);
+    }
+
+    public float getHeadRollAngle(float pPartialTick) {
+        return 0;
     }
 
 
@@ -156,7 +166,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         this.goalSelector.addGoal(2, new OrcaEntity.OrcaEntitySwimWithPlayerGoal(this, 3.5D));
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
-        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 14.0F));
+        this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 20.0F));
         this.goalSelector.addGoal(4, new OrcaJumpGoal(this, 6));
         this.goalSelector.addGoal(6, new MeleeAttackGoal(this, (double) 1.2F, true));
         this.goalSelector.addGoal(8, new FollowBoatGoal(this));
@@ -237,15 +247,43 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         }
     }
 
+
+    public boolean canHoldItem(ItemStack pStack) {
+        Item item = pStack.getItem();
+        ItemStack itemstack = this.getItemBySlot(EquipmentSlot.MAINHAND);
+        return itemstack.isEmpty() || this.ticksSinceEaten > 0 && item.isEdible() && !itemstack.getItem().isEdible();
+    }
+
+    private void spitOutItem(ItemStack pStack) {
+        if (!pStack.isEmpty() && !this.level.isClientSide) {
+            ItemEntity itementity = new ItemEntity(this.level, this.getX() + this.getLookAngle().x, this.getY() + 1.0D, this.getZ() + this.getLookAngle().z, pStack);
+            itementity.setPickUpDelay(40);
+            itementity.setThrower(this.getUUID());
+            this.playSound(SoundEvents.FOX_SPIT, 1.0F, 1.0F);
+            this.level.addFreshEntity(itementity);
+        }
+    }
+
+    private void dropItemStack(ItemStack pStack) {
+        ItemEntity itementity = new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), pStack);
+        this.level.addFreshEntity(itementity);
+    }
+
     protected void pickUpItem(ItemEntity pItemEntity) {
         if (this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
             ItemStack itemstack = pItemEntity.getItem();
             if (this.canHoldItem(itemstack)) {
+                int i = itemstack.getCount();
+                if (i > 1) {
+                    this.dropItemStack(itemstack.split(i - 1));
+                }
+                this.spitOutItem(this.getItemBySlot(EquipmentSlot.MAINHAND));
                 this.onItemPickup(pItemEntity);
                 this.setItemSlot(EquipmentSlot.MAINHAND, itemstack);
                 this.setGuaranteedDrop(EquipmentSlot.MAINHAND);
                 this.take(pItemEntity, itemstack.getCount());
                 pItemEntity.discard();
+                this.ticksSinceEaten = 0;
             }
         }
 
@@ -483,15 +521,31 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
                     this.spawnTrustingParticles(false);
                     this.level.broadcastEntityEvent(this, (byte) 40);
                 }
+            itemstack.shrink(1);
+        }
+        if (this.isTrusting()){
+                if (this.isFood(itemstack) && this.getHealth() < this.getMaxHealth()) {
+                    if (!pPlayer.getAbilities().instabuild) {
+                        itemstack.shrink(1);
+                    }
+                    if(!this.level.isClientSide) {
+                        this.heal((float) itemstack.getFoodProperties(this).getNutrition());
+                    }
+                    this.gameEvent(GameEvent.EAT, this);
+                    return InteractionResult.SUCCESS;
+                }
             }
-
             return InteractionResult.sidedSuccess(this.level.isClientSide);
         } else {
             return super.mobInteract(pPlayer, pHand);
         }
+
     }
 
-    private void usePlayerItem(Player pPlayer, InteractionHand pHand, ItemStack itemstack) {
+    protected void usePlayerItem(Player pPlayer, InteractionHand pHand, ItemStack pStack) {
+        if (this.isFood(pStack)) {
+            this.playSound(this.getEatingSound(pStack), 1.0F, 1.0F);
+        }
 
     }
 
