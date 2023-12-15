@@ -451,8 +451,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
             if (this.player.isSwimming() && this.orcaentity.isTrusting() && this.player.level.random.nextInt(6) == 0) {
                 this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
-                this.orcaentity.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 100), this.orcaentity);
-                this.player.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 100), this.orcaentity);
+                this.orcaentity.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 100));
+                this.player.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 100));
 
                 }else {
                     if (this.player.isSwimming() && this.player.level.random.nextInt(6) == 0) {

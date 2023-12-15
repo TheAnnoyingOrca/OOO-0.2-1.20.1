@@ -32,7 +32,7 @@ public class Ocean {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
 
-        ModEffects.register(modEventBus);
+        ModEffects.MOD_EFFECTS.register(modEventBus);
         ModEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
