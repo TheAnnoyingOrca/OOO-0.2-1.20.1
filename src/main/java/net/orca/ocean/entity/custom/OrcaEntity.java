@@ -48,6 +48,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
+import net.orca.ocean.effect.ModEffects;
 import net.orca.ocean.entity.client.orca.eyePatch;
 import net.orca.ocean.entity.client.orca.saddlePatch;
 import net.orca.ocean.entity.goals.OrcaJumpGoal;
@@ -436,10 +437,6 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         /**
          * Reset the task's internal state. Called when this task is interrupted by another one
          */
-        public void stop() {
-            this.player = null;
-            this.orcaentity.getNavigation().stop();
-        }
 
         /**
          * Keep ticking a continuous task that has already been started
@@ -452,9 +449,17 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
                 this.orcaentity.getNavigation().moveTo(this.player, this.speedModifier);
             }
 
-            if (this.player.isSwimming() && this.player.level.random.nextInt(6) == 0) {
+            if (this.player.isSwimming() && this.orcaentity.isTrusting() && this.player.level.random.nextInt(6) == 0) {
                 this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
-            }
+                this.orcaentity.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 100), this.orcaentity);
+                this.player.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 100), this.orcaentity);
+
+                }else {
+                    if (this.player.isSwimming() && this.player.level.random.nextInt(6) == 0) {
+                        this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
+                    }
+                }
+
 
         }
     }
