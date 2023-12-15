@@ -54,10 +54,7 @@ import net.orca.ocean.entity.goals.OrcaJumpGoal;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Predicate;
 
 public class OrcaEntity extends WaterAnimal implements NeutralMob {
@@ -167,7 +164,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 20.0F));
-        this.goalSelector.addGoal(4, new OrcaJumpGoal(this, 6));
+        this.goalSelector.addGoal(4, new OrcaJumpGoal(this, 10));
         this.goalSelector.addGoal(6, new MeleeAttackGoal(this, (double) 1.2F, true));
         this.goalSelector.addGoal(8, new FollowBoatGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Guardian.class, true));
@@ -247,47 +244,6 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         }
     }
 
-
-    public boolean canHoldItem(ItemStack pStack) {
-        Item item = pStack.getItem();
-        ItemStack itemstack = this.getItemBySlot(EquipmentSlot.MAINHAND);
-        return itemstack.isEmpty() || this.ticksSinceEaten > 0 && item.isEdible() && !itemstack.getItem().isEdible();
-    }
-
-    private void spitOutItem(ItemStack pStack) {
-        if (!pStack.isEmpty() && !this.level.isClientSide) {
-            ItemEntity itementity = new ItemEntity(this.level, this.getX() + this.getLookAngle().x, this.getY() + 1.0D, this.getZ() + this.getLookAngle().z, pStack);
-            itementity.setPickUpDelay(40);
-            itementity.setThrower(this.getUUID());
-            this.playSound(SoundEvents.FOX_SPIT, 1.0F, 1.0F);
-            this.level.addFreshEntity(itementity);
-        }
-    }
-
-    private void dropItemStack(ItemStack pStack) {
-        ItemEntity itementity = new ItemEntity(this.level, this.getX(), this.getY(), this.getZ(), pStack);
-        this.level.addFreshEntity(itementity);
-    }
-
-    protected void pickUpItem(ItemEntity pItemEntity) {
-        if (this.getItemBySlot(EquipmentSlot.MAINHAND).isEmpty()) {
-            ItemStack itemstack = pItemEntity.getItem();
-            if (this.canHoldItem(itemstack)) {
-                int i = itemstack.getCount();
-                if (i > 1) {
-                    this.dropItemStack(itemstack.split(i - 1));
-                }
-                this.spitOutItem(this.getItemBySlot(EquipmentSlot.MAINHAND));
-                this.onItemPickup(pItemEntity);
-                this.setItemSlot(EquipmentSlot.MAINHAND, itemstack);
-                this.setGuaranteedDrop(EquipmentSlot.MAINHAND);
-                this.take(pItemEntity, itemstack.getCount());
-                pItemEntity.discard();
-                this.ticksSinceEaten = 0;
-            }
-        }
-
-    }
 
     public void tick() {
         super.tick();
@@ -509,45 +465,56 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     public @NotNull InteractionResult mobInteract(Player pPlayer, @NotNull InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
-        if ((this.temptGoal == null || this.temptGoal.isRunning()) && !this.isTrusting() && this.isFood(itemstack) && pPlayer.distanceToSqr(this) < 9.0D) {
-            this.usePlayerItem(pPlayer, pHand, itemstack);
-            if (!this.level.isClientSide) {
-                if (this.random.nextInt(12) == 0) {
-                    this.setTrusting(true);
-                    this.addTrustedUUID(pPlayer.getUUID());
-                    this.spawnTrustingParticles(true);
-                    this.level.broadcastEntityEvent(this, (byte) 41);
-                } else {
-                    this.spawnTrustingParticles(false);
-                    this.level.broadcastEntityEvent(this, (byte) 40);
-                }
-            itemstack.shrink(1);
-        }
-        if (this.isTrusting()){
-                if (this.isFood(itemstack) && this.getHealth() < this.getMaxHealth()) {
-                    if (!pPlayer.getAbilities().instabuild) {
-                        itemstack.shrink(1);
-                    }
-                    if(!this.level.isClientSide) {
-                        this.heal((float) itemstack.getFoodProperties(this).getNutrition());
-                    }
-                    this.gameEvent(GameEvent.EAT, this);
-                    return InteractionResult.SUCCESS;
-                }
+        Item item = itemstack.getItem();
+        if (this.level.isClientSide) {
+            if (this.isTrusting()) {
+                return InteractionResult.SUCCESS;
+            } else {
+                return !this.isFood(itemstack) || !(this.getHealth() < this.getMaxHealth()) && this.isTrusting() ? InteractionResult.PASS : InteractionResult.SUCCESS;
             }
-            return InteractionResult.sidedSuccess(this.level.isClientSide);
         } else {
-            return super.mobInteract(pPlayer, pHand);
+            if ((this.temptGoal == null || this.temptGoal.isRunning()) && !this.isTrusting() && this.isFood(itemstack) && pPlayer.distanceToSqr(this) < 9.0D) {
+                this.usePlayerItem(pPlayer, pHand, itemstack);
+                if (!this.level.isClientSide) {
+                    if (this.random.nextInt(12) == 0) {
+                        this.setTrusting(true);
+                        this.addTrustedUUID(pPlayer.getUUID());
+                        this.spawnTrustingParticles(true);
+                        this.level.broadcastEntityEvent(this, (byte) 41);
+                    } else {
+                        this.spawnTrustingParticles(false);
+                        this.level.broadcastEntityEvent(this, (byte) 40);
+                    }
+                    itemstack.shrink(1);
+                }
+                return InteractionResult.sidedSuccess(this.level.isClientSide);
+
+
+            } else {
+                if (this.isTrusting()) {
+                    if (this.isFood(itemstack) && this.getHealth() < this.getMaxHealth()) {
+                        this.heal((float) itemstack.getFoodProperties(this).getNutrition());
+                        this.usePlayerItem(pPlayer, pHand, itemstack);
+                        itemstack.shrink(1);
+                        return InteractionResult.CONSUME;
+                    }
+
+                    InteractionResult interactionresult = super.mobInteract(pPlayer, pHand);
+                    return interactionresult;
+                }
+                return super.mobInteract(pPlayer, pHand);
+            }
+
         }
 
     }
-
-    protected void usePlayerItem(Player pPlayer, InteractionHand pHand, ItemStack pStack) {
+    protected void usePlayerItem (Player pPlayer, InteractionHand pHand, ItemStack pStack){
         if (this.isFood(pStack)) {
             this.playSound(this.getEatingSound(pStack), 1.0F, 1.0F);
         }
 
     }
+
 
     public void handleEntityEvent(byte pId) {
         if (pId == 41) {
