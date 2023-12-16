@@ -4,10 +4,15 @@
   "item.ocean.clump": "Clump",
   "item.ocean.eight_ball": "Numberer",
   "item.ocean.whistle": "Sea Whistle",
+  "item.ocean.orca_spawn_egg": "Orca Spawn Egg",
 
   "block.ocean.wild_kelp_block": "Wild Kelp Block",
   "block.ocean.budding_kelp_block": "Budding Kelp Block",
   "block.ocean.sediment": "Sea Sediment",
+
+  "entity.ocean.orca": "Orca",
+
+  "ocean.potion.synergy": "Synergy",
 
   "itemGroup.oceantab": "Orca's Ocean Overhaul"
 }

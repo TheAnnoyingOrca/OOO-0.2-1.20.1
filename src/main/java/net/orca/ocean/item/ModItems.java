@@ -25,7 +25,7 @@ public class ModItems {
     public static final RegistryObject<Item> EIGHT_BALL = ITEMS.register("eight_ball",
             () -> new EightBallItem(new Item.Properties().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1)));
     public static final RegistryObject<Item> ORCA_SPAWN_EGG = ITEMS.register("orca_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.ORCA, 363643, 879798,
+            () -> new ForgeSpawnEggItem(ModEntities.ORCA, 0X343a42, 0Xccced5,
                     new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB)));
 
     public static void register(IEventBus eventBus) {

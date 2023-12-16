@@ -51,6 +51,7 @@ import net.minecraft.world.phys.Vec3;
 import net.orca.ocean.effect.ModEffects;
 import net.orca.ocean.entity.client.orca.eyePatch;
 import net.orca.ocean.entity.client.orca.saddlePatch;
+import net.orca.ocean.entity.goals.OrcaBreathAirGoal;
 import net.orca.ocean.entity.goals.OrcaJumpGoal;
 import org.jetbrains.annotations.NotNull;
 
@@ -66,7 +67,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
-    static final TargetingConditions SWIM_WITH_PLAYER_TARGETING = TargetingConditions.forNonCombat().range(10.0D).ignoreLineOfSight();
+    static final TargetingConditions SWIM_WITH_PLAYER_TARGETING = TargetingConditions.forNonCombat().range(24.0D).ignoreLineOfSight();
 
     private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.COD, Items.SALMON);
 
@@ -93,7 +94,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         super(pEntityType, pLevel);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        this.setCanPickUpLoot(true);
+
 
     }
     private void setFlag(int pFlagId, boolean pValue) {
@@ -141,6 +142,18 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
         this.entityData.define(DATA_FLAGS_ID, (byte)0);
     }
+    private boolean isMovingInWater() {
+        return this.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6D && this.isInWaterOrBubble();
+    }
+
+    public final AnimationState swimAnimationState = new AnimationState();
+    public final AnimationState swimIdleAnimationState = new AnimationState();
+    private int swimIdleAnimationTimeout = 0;
+
+
+
+
+
 
     boolean isTrusting() {
         return this.entityData.get(DATA_TRUSTING);
@@ -159,14 +172,14 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
     protected void registerGoals() {
 
 
-        this.goalSelector.addGoal(0, new BreathAirGoal(this));
+        this.goalSelector.addGoal(0, new OrcaBreathAirGoal(this));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
         this.goalSelector.addGoal(2, new OrcaEntity.OrcaEntitySwimWithPlayerGoal(this, 3.5D));
-        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 1.0D, 10));
+        this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 0.7D, 10));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 20.0F));
         this.goalSelector.addGoal(4, new OrcaJumpGoal(this, 10));
-        this.goalSelector.addGoal(6, new MeleeAttackGoal(this, (double) 1.2F, true));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, (double) 1.2F, true));
         this.goalSelector.addGoal(8, new FollowBoatGoal(this));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Guardian.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Drowned.class, true));
@@ -191,8 +204,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
                 .add(Attributes.MAX_HEALTH, 180)
                 .add(Attributes.MOVEMENT_SPEED, (double) 2f)
                 .add(Attributes.ARMOR_TOUGHNESS, 2.0f)
-                .add(Attributes.ATTACK_KNOCKBACK, 0.5f)
-                .add(Attributes.ATTACK_DAMAGE, 20F);
+                .add(Attributes.ATTACK_KNOCKBACK, 0.8f)
+                .add(Attributes.ATTACK_DAMAGE, 14F);
     }
 
     protected PathNavigation createNavigation(Level pLevel) {
@@ -277,6 +290,16 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
                     this.level.addParticle(ParticleTypes.DOLPHIN, this.getX() - vec3.x * (double) f2 + (double) f, this.getY() - vec3.y, this.getZ() - vec3.z * (double) f2 + (double) f1, 0.0D, 0.0D, 0.0D);
                     this.level.addParticle(ParticleTypes.DOLPHIN, this.getX() - vec3.x * (double) f2 - (double) f, this.getY() - vec3.y, this.getZ() - vec3.z * (double) f2 - (double) f1, 0.0D, 0.0D, 0.0D);
                 }
+            }
+            if (this.isMovingInWater()) {
+                this.swimIdleAnimationState.stop();
+                this.swimAnimationState.startIfStopped(this.tickCount);
+            } else if (this.isInWaterOrBubble()) {
+                this.swimAnimationState.stop();
+                this.swimIdleAnimationState.startIfStopped(this.tickCount);
+            } else {
+                this.swimAnimationState.stop();
+                this.swimIdleAnimationState.stop();
             }
 
         }
@@ -451,8 +474,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
             if (this.player.isSwimming() && this.orcaentity.isTrusting() && this.player.level.random.nextInt(6) == 0) {
                 this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
-                this.orcaentity.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 100));
-                this.player.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 100));
+                this.orcaentity.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 250));
+                this.player.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 250));
 
                 }else {
                     if (this.player.isSwimming() && this.player.level.random.nextInt(6) == 0) {
