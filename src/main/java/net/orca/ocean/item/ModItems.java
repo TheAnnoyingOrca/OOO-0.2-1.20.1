@@ -16,10 +16,10 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, Ocean.MOD_ID);
 
     public static final RegistryObject<Item> KELPFISH = ITEMS.register("kelpfish",
-            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB)));
+            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB).food(ModFoods.KELPFISH)));
     private static net.minecraft.world.food.FoodProperties FoodProperties;
     public static final RegistryObject<Item> COOKED_KELPFISH = ITEMS.register("cooked_kelpfish",
-            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB).food(FoodProperties)));
+            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB).food(ModFoods.COOKED_KELPFISH)));
     public static final RegistryObject<Item> CLUMP = ITEMS.register("clump",
             () -> new Item(new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB)));
     public static final RegistryObject<Item> EIGHT_BALL = ITEMS.register("eight_ball",
