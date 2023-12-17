@@ -4,6 +4,9 @@ import com.mojang.logging.LogUtils;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -41,6 +44,13 @@ public class Ocean {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
+        event.enqueueWork(() -> {
+            SpawnPlacements.register(ModEntities.ORCA.get(),
+                SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE,
+                    WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
+
+
+        });
 
     }
 

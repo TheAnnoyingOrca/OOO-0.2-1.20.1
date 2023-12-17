@@ -65,8 +65,8 @@ public class OrcaModel<T extends Entity> extends HierarchicalModel<T> {
 		this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
 		if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
 			this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
-			this.tail.xRot = -0.1F * Mth.cos(pAgeInTicks * 0.3F);
-			this.fluke.xRot = -0.2F * Mth.cos(pAgeInTicks * 0.3F);
+			this.tail.xRot = -0.1F * Mth.cos(+1.0F - pAgeInTicks * 0.3F);
+			this.fluke.xRot = -0.2F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
 		}
 
 	}

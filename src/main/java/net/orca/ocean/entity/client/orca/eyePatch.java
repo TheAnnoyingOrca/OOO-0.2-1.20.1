@@ -7,7 +7,7 @@ public enum eyePatch {
     MISCHIEF(5),
     WORRYWORT(2),
     STYLISH(6),
-    SLENDER(1);
+    SLENDER(4);
 
     private static final net.orca.ocean.entity.client.orca.eyePatch[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(net.orca.ocean.entity.client.orca.eyePatch::getId)).toArray((p_30873_) -> {
         return new net.orca.ocean.entity.client.orca.eyePatch[p_30873_];
