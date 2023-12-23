@@ -16,17 +16,15 @@ public class ModItems {
             DeferredRegister.create(ForgeRegistries.ITEMS, Ocean.MOD_ID);
 
     public static final RegistryObject<Item> KELPFISH = ITEMS.register("kelpfish",
-            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB).food(ModFoods.KELPFISH)));
+            () -> new Item(new Item.Properties().food(ModFoods.KELPFISH)));
     private static net.minecraft.world.food.FoodProperties FoodProperties;
     public static final RegistryObject<Item> COOKED_KELPFISH = ITEMS.register("cooked_kelpfish",
-            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB).food(ModFoods.COOKED_KELPFISH)));
+            () -> new Item(new Item.Properties().food(ModFoods.COOKED_KELPFISH)));
     public static final RegistryObject<Item> CLUMP = ITEMS.register("clump",
-            () -> new Item(new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB)));
-    public static final RegistryObject<Item> EIGHT_BALL = ITEMS.register("eight_ball",
-            () -> new EightBallItem(new Item.Properties().tab(CreativeModeTab.TAB_TOOLS).stacksTo(1)));
+            () -> new Item(new Item.Properties()));
     public static final RegistryObject<Item> ORCA_SPAWN_EGG = ITEMS.register("orca_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ORCA, 0X343a42, 0Xccced5,
-                    new Item.Properties().tab(ModCreativeModeTab.OCEAN_TAB)));
+                    new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

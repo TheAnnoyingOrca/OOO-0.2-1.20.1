@@ -8,8 +8,8 @@
   ],
   "spawners": {
     "type": "ocean:orca",
-    "weight": 20,
+    "weight": 5,
     "minCount": 2,
-    "maxCount": 6
+    "maxCount": 4
   }
 }

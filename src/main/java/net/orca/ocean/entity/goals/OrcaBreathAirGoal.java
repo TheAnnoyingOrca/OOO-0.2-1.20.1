@@ -55,14 +55,14 @@ public class OrcaBreathAirGoal extends Goal {
         BlockPos blockpos = null;
 
         for(BlockPos blockpos1 : iterable) {
-            if (this.givesAir(this.orcaentity.level, blockpos1)) {
+            if (this.givesAir(this.orcaentity.level(), blockpos1)) {
                 blockpos = blockpos1;
                 break;
             }
         }
 
         if (blockpos == null) {
-            blockpos = new BlockPos(this.orcaentity.getX(), this.orcaentity.getY() + 9.0D, this.orcaentity.getZ());
+            blockpos = BlockPos.containing(this.orcaentity.getX(), this.orcaentity.getY() + 9.0D, this.orcaentity.getZ());
         }
 
         this.orcaentity.getNavigation().moveTo((double)blockpos.getX(), (double)(blockpos.getY() + 4), (double)blockpos.getZ(), 1.0D);

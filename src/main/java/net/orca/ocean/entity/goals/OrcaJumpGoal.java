@@ -25,16 +25,13 @@ public class OrcaJumpGoal extends JumpGoal {
         if (this.orcaentity.getRandom().nextInt(this.interval) != 0) {
             return false;
         } else {
-            Direction $$0 = this.orcaentity.getMotionDirection();
-            int $$1 = $$0.getStepX();
-            int $$2 = $$0.getStepZ();
-            BlockPos $$3 = this.orcaentity.blockPosition();
-            int[] var5 = STEPS_TO_CHECK;
-            int var6 = var5.length;
+            Direction direction = this.orcaentity.getMotionDirection();
+            int i = direction.getStepX();
+            int j = direction.getStepZ();
+            BlockPos blockpos = this.orcaentity.blockPosition();
 
-            for(int var7 = 0; var7 < var6; ++var7) {
-                int $$4 = var5[var7];
-                if (!this.waterIsClear($$3, $$1, $$2, $$4) || !this.surfaceIsClear($$3, $$1, $$2, $$4)) {
+            for(int k : STEPS_TO_CHECK) {
+                if (!this.waterIsClear(blockpos, i, j, k) || !this.surfaceIsClear(blockpos, i, j, k)) {
                     return false;
                 }
             }
@@ -44,17 +41,17 @@ public class OrcaJumpGoal extends JumpGoal {
     }
 
     private boolean waterIsClear(BlockPos pPos, int pDx, int pDz, int pScale) {
-        BlockPos $$4 = pPos.offset(pDx * pScale, 0, pDz * pScale);
-        return this.orcaentity.level.getFluidState($$4).is(FluidTags.WATER) && !this.orcaentity.level.getBlockState($$4).getMaterial().blocksMotion();
+        BlockPos blockpos = pPos.offset(pDx * pScale, 0, pDz * pScale);
+        return this.orcaentity.level().getFluidState(blockpos).is(FluidTags.WATER) && !this.orcaentity.level().getBlockState(blockpos).blocksMotion();
     }
 
     private boolean surfaceIsClear(BlockPos pPos, int pDx, int pDz, int pScale) {
-        return this.orcaentity.level.getBlockState(pPos.offset(pDx * pScale, 1, pDz * pScale)).isAir() && this.orcaentity.level.getBlockState(pPos.offset(pDx * pScale, 2, pDz * pScale)).isAir();
+        return this.orcaentity.level().getBlockState(pPos.offset(pDx * pScale, 1, pDz * pScale)).isAir() && this.orcaentity.level().getBlockState(pPos.offset(pDx * pScale, 2, pDz * pScale)).isAir();
     }
 
     public boolean canContinueToUse() {
         double $$0 = this.orcaentity.getDeltaMovement().y;
-        return (!($$0 * $$0 < 0.029999999329447746) || this.orcaentity.getXRot() == 0.0F || !(Math.abs(this.orcaentity.getXRot()) < 10.0F) || !this.orcaentity.isInWater()) && !this.orcaentity.isOnGround();
+        return (!($$0 * $$0 < 0.029999999329447746) || this.orcaentity.getXRot() == 0.0F || !(Math.abs(this.orcaentity.getXRot()) < 10.0F) || !this.orcaentity.isInWater()) && !this.orcaentity.onGround();
     }
 
     public boolean isInterruptable() {
@@ -74,7 +71,7 @@ public class OrcaJumpGoal extends JumpGoal {
     public void tick() {
         boolean $$0 = this.breached;
         if (!$$0) {
-            FluidState $$1 = this.orcaentity.level.getFluidState(this.orcaentity.blockPosition());
+            FluidState $$1 = this.orcaentity.level().getFluidState(this.orcaentity.blockPosition());
             this.breached = $$1.is(FluidTags.WATER);
         }
 
@@ -84,7 +81,7 @@ public class OrcaJumpGoal extends JumpGoal {
 
         Vec3 $$20 = this.orcaentity.getDeltaMovement();
         if ($$20.y * $$20.y < 0.029999999329447746 && this.orcaentity.getXRot() != 0.0F) {
-            this.orcaentity.setXRot(Mth.rotlerp(this.orcaentity.getXRot(), 0.0F, 0.2F));
+            this.orcaentity.setXRot(Mth.rotLerp(this.orcaentity.getXRot(), 0.0F, 0.2F));
         } else if ($$20.length() > 9.999999747378752E-6) {
             double $$30 = $$20.horizontalDistance();
             double $$4 = Math.atan2(-$$20.y, $$30) * 57.2957763671875;

@@ -5,15 +5,20 @@ package net.orca.ocean.entity.client;// Made with Blockbench 4.8.3
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.minecraft.client.animation.AnimationDefinition;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.Model;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.Entity;
+import net.orca.ocean.entity.animations.OrcaAnimationDefinitions;
+import net.orca.ocean.entity.custom.OrcaEntity;
 
-public class OrcaModel<T extends Entity> extends HierarchicalModel<T> {
+public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 	public final ModelPart head;
 	private final ModelPart tail;
 	private final ModelPart fluke;
@@ -61,13 +66,32 @@ public class OrcaModel<T extends Entity> extends HierarchicalModel<T> {
 		return head;
 	}
 	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+		this.root().getAllParts().forEach(ModelPart::resetPose);
+		this.animate(pEntity.swimAnimationState, OrcaAnimationDefinitions.swim, pAgeInTicks);
+		this.animate(pEntity.swimIdleAnimationState, OrcaAnimationDefinitions.swimIdle, pAgeInTicks);
 		this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
 		this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-		if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
-			this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
-			this.tail.xRot = -0.1F * Mth.cos(+1.0F - pAgeInTicks * 0.3F);
-			this.fluke.xRot = -0.2F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
+
+
 		}
 
+	private void animateWalk(AnimationState swimAnimationState, AnimationDefinition swim, float pAgeInTicks) {
 	}
+
 }
+
+
+//if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
+//			this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
+//			this.tail.xRot = -0.1F * Mth.cos(+1.0F - pAgeInTicks * 0.3F);
+//			this.fluke.xRot = -0.2F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
+//this.root().getAllParts().forEach(ModelPart::resetPose);
+//			this.animate(pEntity.swimAnimationState, OrcaAnimationDefinitions.swim, pAgeInTicks);
+//			this.animate(pEntity.swimIdleAnimationState, OrcaAnimationDefinitions.swimIdle, pAgeInTicks);
+//this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
+//		this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
+//		if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D);{
+//			this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
+//			this.tail.xRot = -0.1F * Mth.cos(+1.0F - pAgeInTicks * 0.3F);
+//			this.fluke.xRot = -0.2F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
+//		}
