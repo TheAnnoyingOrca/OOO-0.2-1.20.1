@@ -115,7 +115,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
     private OrcaEntity.OrcaTemptGoal temptGoal;
 
     public boolean canBreatheUnderwater() {
-        return false;
+        return true;
     }
 
     protected void handleAirSupply(int pAirSupply) {
@@ -175,7 +175,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
         this.goalSelector.addGoal(0, new OrcaBreathAirGoal(this));
         this.goalSelector.addGoal(0, new TryFindWaterGoal(this));
-        this.goalSelector.addGoal(2, new OrcaEntity.OrcaEntitySwimWithPlayerGoal(this, 3.5D));
+        this.goalSelector.addGoal(2, new OrcaEntity.OrcaEntitySwimWithPlayerGoal(this, 2.0D));
         this.goalSelector.addGoal(4, new RandomSwimmingGoal(this, 0.5D, 10));
         this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 20.0F));

@@ -18,6 +18,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.orca.ocean.block.ModBlocks;
 import net.orca.ocean.effect.ModEffects;
 import net.orca.ocean.entity.ModEntities;
+import net.orca.ocean.entity.client.KelpFishRenderer;
 import net.orca.ocean.entity.client.OrcaRenderer;
 import net.orca.ocean.item.ModItems;
 import org.slf4j.Logger;
@@ -61,6 +62,7 @@ public class Ocean {
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.WILD_KELP_BLOCK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(ModBlocks.BUDDING_KELP_BLOCK.get(), RenderType.cutout());
             EntityRenderers.register(ModEntities.ORCA.get(), OrcaRenderer::new);
+            EntityRenderers.register(ModEntities.KELPFISH.get(), KelpFishRenderer::new);
         }
     }
 }

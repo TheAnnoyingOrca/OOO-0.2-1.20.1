@@ -60,7 +60,8 @@ public class OrcaJumpGoal extends JumpGoal {
 
     public void start() {
         Direction $$0 = this.orcaentity.getMotionDirection();
-        this.orcaentity.setDeltaMovement(this.orcaentity.getDeltaMovement().add((double)$$0.getStepX() * 0.6, 0.7, (double)$$0.getStepZ() * 0.6));
+        float scale = (float) 1.2;
+        this.orcaentity.setDeltaMovement(this.orcaentity.getDeltaMovement().add((double)$$0.getStepX() * scale, 1.0, (double)$$0.getStepZ() * scale));
         this.orcaentity.getNavigation().stop();
     }
 

@@ -1,15 +1,16 @@
 package net.orca.ocean.item;
 
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.ClipContext;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.ForgeSpawnEggItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.orca.ocean.entity.ModEntities;
-import net.orca.ocean.item.custom.EightBallItem;
 import net.orca.ocean.Ocean;
+import net.orca.ocean.item.custom.ItemModFishBucket;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -25,6 +26,8 @@ public class ModItems {
     public static final RegistryObject<Item> ORCA_SPAWN_EGG = ITEMS.register("orca_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ORCA, 0X343a42, 0Xccced5,
                     new Item.Properties()));
+    public static final RegistryObject<Item> KELPFISH_BUCKET = ITEMS.register("kelpfish_egg",
+            () -> new ItemModFishBucket(ModEntities.KELPFISH, Fluids.WATER, new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

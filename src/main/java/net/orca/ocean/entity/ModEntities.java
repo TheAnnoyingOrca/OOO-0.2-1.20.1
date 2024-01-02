@@ -7,6 +7,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.orca.ocean.Ocean;
+import net.orca.ocean.entity.custom.KelpFishEntity;
 import net.orca.ocean.entity.custom.OrcaEntity;
 
 public class ModEntities {
@@ -15,7 +16,8 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<OrcaEntity>> ORCA =
             ENTITY_TYPES.register("orca", () -> EntityType.Builder.of(OrcaEntity::new, MobCategory.WATER_CREATURE).sized(3.5f, 1.5f).build("orca"));
-
+    public static final RegistryObject<EntityType<KelpFishEntity>> KELPFISH =
+            ENTITY_TYPES.register("kelpfish", () -> EntityType.Builder.of(KelpFishEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.3f).build("kelpfish"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

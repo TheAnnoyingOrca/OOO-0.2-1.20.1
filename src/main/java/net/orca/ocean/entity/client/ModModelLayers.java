@@ -8,14 +8,24 @@ import net.orca.ocean.entity.client.orca.OrcaSaddlePatchLayer;
 
 public class ModModelLayers {
 
-    private final ResourceLocation model;
+    //private final ResourceLocation model;
+
     public static final ModelLayerLocation ORCA_LAYER = new ModelLayerLocation(
             new ResourceLocation(Ocean.MOD_ID, "orca_layer"), "main");
+    //public static final ModelLayerLocation ROCKFISH_LAYER = new ModelLayerLocation(
+            //new ResourceLocation(Ocean.MOD_ID, "rockfish_layer"), "main");
+    public static final ModelLayerLocation ROCKFISH_LAYER = create("rockfish_layer");
+    //public static final ModelLayerLocation RONQUIL_LAYER = new ModelLayerLocation(
+            //new ResourceLocation(Ocean.MOD_ID, "ronquil_layer"), "main");
+    public static final ModelLayerLocation RONQUIL_LAYER = create("ronquil_layer");
 
 
-    public ModModelLayers(ResourceLocation OrcaModel, String layer) {
-        this.model = OrcaModel;
+    private static ModelLayerLocation create(String name) {
+        return new ModelLayerLocation(new ResourceLocation(Ocean.MOD_ID, name), "main");
     }
+    //public ModModelLayers(ResourceLocation KelpFishModel, String layer) {
+        //this.model = KelpFishModel;
+    //}
 }
 
 
