@@ -26,7 +26,10 @@ public class ModItems {
     public static final RegistryObject<Item> ORCA_SPAWN_EGG = ITEMS.register("orca_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.ORCA, 0X343a42, 0Xccced5,
                     new Item.Properties()));
-    public static final RegistryObject<Item> KELPFISH_BUCKET = ITEMS.register("kelpfish_egg",
+    public static final RegistryObject<Item> KELPFISH_SPAWN_EGG = ITEMS.register("kelpfish_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.KELPFISH, 0Xa96d3e, 0X3b5580,
+                    new Item.Properties()));
+    public static final RegistryObject<Item> KELPFISH_BUCKET = ITEMS.register("kelpfish_bucket",
             () -> new ItemModFishBucket(ModEntities.KELPFISH, Fluids.WATER, new Item.Properties()));
 
     public static void register(IEventBus eventBus) {

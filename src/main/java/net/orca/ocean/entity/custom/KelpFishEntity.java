@@ -1,33 +1,29 @@
 package net.orca.ocean.entity.custom;
 
+import net.minecraft.Util;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.animal.Bucketable;
-import net.minecraft.world.entity.animal.Salmon;
-import net.minecraft.world.entity.animal.TropicalFish;
-import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
 import net.orca.ocean.entity.client.othervariants.KelpFishVariant;
 import net.orca.ocean.item.ModItems;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public class KelpFishEntity extends AbstractSchoolingFish {
     public static final String BUCKET_VARIANT_TAG = "BucketVariantTag";
@@ -53,7 +49,18 @@ private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData
     }
 
     public int getMaxSchoolSize() {
-        return 5;
+        if (this.getBodyType() == "rockfish"){
+            return 5;
+        } else if (this.getBodyType() == "perch"){
+            return 5;
+        } else if (this.getBodyType() == "greenling"){
+            return 5;
+        } else if (this.getBodyType() == "lingcod"){
+            return 5;
+        } else if (this.getBodyType() == "sailfin") {
+            return 5;
+        } else
+            return 1;
     }
     @Override
     protected void defineSynchedData() {
@@ -137,4 +144,37 @@ private static final EntityDataAccessor<Boolean> FROM_BUCKET = SynchedEntityData
         return SoundEvents.SALMON_FLOP;
     }
 
+    @Nullable
+    @Override
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag) {
+        if (mobSpawnType != MobSpawnType.BUCKET) {
+            KelpFishVariant[] variants = KelpFishVariant.values();
+            KelpFishVariant variant = Util.getRandom(variants, serverLevelAccessor.getRandom());
+            this.setVariant(variant);
+        }
+        if (mobSpawnType == MobSpawnType.BUCKET && compoundTag != null && compoundTag.contains(BUCKET_VARIANT_TAG, 3)) {
+            this.setVariant(KelpFishVariant.byId(compoundTag.getInt(BUCKET_VARIANT_TAG)));
+            return spawnGroupData;
+        }
+        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData, compoundTag);
+    }
+    public final AnimationState swimAnimationState = new AnimationState();
+    public final AnimationState swimIdleAnimationState = new AnimationState();
+    private int swimIdleAnimationTimeout = 0;
+
+
+
+    // void travel(@NotNull Vec3 pTravelVector) {
+        //if (this.isEffectiveAi() && this.isInWater()) {
+            //this.moveRelative(this.getSpeed(), pTravelVector);
+            ////this.move(MoverType.SELF, this.getDeltaMovement());
+            //this.setDeltaMovement(this.getDeltaMovement().scale(0.9D));
+            //if (this.getTarget() == null) {
+                //this.setDeltaMovement(this.getDeltaMovement().add(0.0D, -0.005D, 0.0D));
+            //}
+        //} else {
+            //super.travel(pTravelVector);
+        //}
+
+    //}
 }
