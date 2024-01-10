@@ -9,6 +9,7 @@ import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,8 +21,11 @@ import net.orca.ocean.effect.ModEffects;
 import net.orca.ocean.entity.ModEntities;
 import net.orca.ocean.entity.client.KelpFishRenderer;
 import net.orca.ocean.entity.client.OrcaRenderer;
+import net.orca.ocean.item.ModCreativeModeTab;
 import net.orca.ocean.item.ModItems;
 import org.slf4j.Logger;
+
+import static net.orca.ocean.item.ModCreativeModeTab.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(Ocean.MOD_ID)
@@ -36,6 +40,8 @@ public class Ocean {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
 
+        register(modEventBus);
+
         ModEffects.MOD_EFFECTS.register(modEventBus);
         ModEntities.register(modEventBus);
 
@@ -48,6 +54,9 @@ public class Ocean {
         event.enqueueWork(() -> {
             SpawnPlacements.register(ModEntities.ORCA.get(),
                 SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE,
+                    WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
+            SpawnPlacements.register(ModEntities.KELPFISH.get(),
+                    SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE,
                     WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
 
 

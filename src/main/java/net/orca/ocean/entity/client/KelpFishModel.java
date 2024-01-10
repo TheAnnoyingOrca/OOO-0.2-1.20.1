@@ -463,63 +463,63 @@ public class KelpFishModel<T extends KelpFishEntity> extends HierarchicalModel<T
 			this.leftFin.zRot = -f * 0.80F * Mth.sin(0.2F * ageInTicks);
 			this.rightFin.zRot = -f * 0.80F * Mth.sin(-0.2F * ageInTicks);
 			this.tail.yRot = -f * 0.45F * Mth.cos(+1.0F - 0.2F * ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 
 		} else if (entity.getBodyType() == "ronquil"){
 			this.tail.yRot = -f * 0.45F * Mth.sin(+1.0F - 0.6F * ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 			this.leftFin.yRot = -f * 0.15F * Mth.sin(0.3F * ageInTicks);
 			this.rightFin.yRot = -f * 0.15F * Mth.sin(-0.3F * ageInTicks);
 		} else if (entity.getBodyType() == "warbonnet") {
 			this.tail.yRot = -f * 0.45F * Mth.sin(+1.0F - 0.6F * ageInTicks);
-			this.body.xRot = headPitch * ((float) Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float) Math.PI / 170F);
+			this.body.xRot = headPitch * ((float) Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float) Math.PI / 160F);
 			this.leftFin.yRot = -f * 0.15F * Mth.sin(0.3F * ageInTicks);
 			this.rightFin.yRot = -f * 0.15F * Mth.sin(-0.3F * ageInTicks);
 		} else if (entity.getBodyType() == "catshark"){
 			this.root().getAllParts().forEach(ModelPart::resetPose);
 			this.animateWalk(BigKelpFishAnimationDefinitions.swim, limbSwing, limbSwingAmount,2.0F, 2.5F);
 			this.animate(entity.swimIdleAnimationState, BigKelpFishAnimationDefinitions.swimIdle, ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 		} else if (entity.getBodyType() == "dogfish"){
 			this.root().getAllParts().forEach(ModelPart::resetPose);
 			this.animateWalk(BigKelpFishAnimationDefinitions.swim, limbSwing, limbSwingAmount,2.0F, 2.5F);
 			this.animate(entity.swimIdleAnimationState, BigKelpFishAnimationDefinitions.swimIdle, ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 		} else if (entity.getBodyType() == "lancet"){
 			this.root().getAllParts().forEach(ModelPart::resetPose);
 			this.animateWalk(BigKelpFishAnimationDefinitions.swim, limbSwing, limbSwingAmount,2.0F, 2.5F);
 			this.animate(entity.swimIdleAnimationState, BigKelpFishAnimationDefinitions.swimIdle, ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 		} else if (entity.getBodyType() == "leopard"){
 			this.root().getAllParts().forEach(ModelPart::resetPose);
 			this.animateWalk(BigKelpFishAnimationDefinitions.swim, limbSwing, limbSwingAmount,2.0F, 2.5F);
 			this.animate(entity.swimIdleAnimationState, BigKelpFishAnimationDefinitions.swimIdle, ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 		} else if (entity.getBodyType() == "lingcod"){
 			this.root().getAllParts().forEach(ModelPart::resetPose);
 			this.animateWalk(BigKelpFishAnimationDefinitions.swim, limbSwing, limbSwingAmount,2.0F, 2.5F);
 			this.animate(entity.swimIdleAnimationState, BigKelpFishAnimationDefinitions.swimIdle, ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 		} else if (entity.getBodyType() == "snipe"){
 			this.root().getAllParts().forEach(ModelPart::resetPose);
 			this.animateWalk(BigKelpFishAnimationDefinitions.swim, limbSwing, limbSwingAmount,2.0F, 2.5F);
 			this.animate(entity.swimIdleAnimationState, BigKelpFishAnimationDefinitions.swimIdle, ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 		} else if (entity.getBodyType() == "wolf"){
 			this.root().getAllParts().forEach(ModelPart::resetPose);
 			this.animateWalk(BigKelpFishAnimationDefinitions.swim, limbSwing, limbSwingAmount,2.0F, 2.5F);
 			this.animate(entity.swimIdleAnimationState, BigKelpFishAnimationDefinitions.swimIdle, ageInTicks);
-			this.body.xRot = headPitch * ((float)Math.PI / 170F);
-			this.body.yRot = netHeadYaw * ((float)Math.PI / 170F);
+			this.body.xRot = headPitch * ((float)Math.PI / 160F);
+			this.body.yRot = netHeadYaw * ((float)Math.PI / 160F);
 		} else {
 			//this.body.yRot += -0.05F - 0.05F * Mth.cos(ageInTicks * 0.3F);
 			this.tail.yRot = -f * 0.45F * Mth.sin(+1.0F - 0.6F * ageInTicks);

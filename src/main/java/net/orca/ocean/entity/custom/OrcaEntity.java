@@ -52,7 +52,9 @@ import net.orca.ocean.effect.ModEffects;
 import net.orca.ocean.entity.client.orca.eyePatch;
 import net.orca.ocean.entity.client.orca.saddlePatch;
 import net.orca.ocean.entity.goals.OrcaBreathAirGoal;
+import net.orca.ocean.entity.goals.OrcaFollowBoatGoal;
 import net.orca.ocean.entity.goals.OrcaJumpGoal;
+import net.orca.ocean.entity.goals.OrcaPorpoiseGoal;
 import net.orca.ocean.item.ModItems;
 import org.jetbrains.annotations.NotNull;
 
@@ -181,7 +183,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 20.0F));
         this.goalSelector.addGoal(4, new OrcaJumpGoal(this, 10));
         this.goalSelector.addGoal(1, new MeleeAttackGoal(this, (double) 1.2F, true));
-        this.goalSelector.addGoal(8, new FollowBoatGoal(this));
+        this.goalSelector.addGoal(8, new OrcaFollowBoatGoal(this));
+        //this.goalSelector.addGoal(8, new OrcaPorpoiseGoal(this, 20));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Guardian.class, true));
         this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Drowned.class, true));
         this.targetSelector.addGoal(7, (new HurtByTargetGoal(this)).setAlertOthers());
@@ -449,10 +452,6 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
             return this.player != null && this.player.isSwimming() && this.orcaentity.distanceToSqr(this.player) < 256.0D;
         }
 
-        public void start() {
-            this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
-        }
-
         public void tick() {
             this.orcaentity.getLookControl().setLookAt(this.player, (float) (this.orcaentity.getMaxHeadYRot() + 20), (float) this.orcaentity.getMaxHeadXRot());
             if (this.orcaentity.distanceToSqr(this.player) < 12.25D) {
@@ -462,13 +461,13 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
             }
 
             if (this.player.isSwimming() && this.orcaentity.isTrusting() && this.player.level().random.nextInt(6) == 0) {
-                this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
+                this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100, 0, false, false, false), this.orcaentity);
                 this.orcaentity.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 250));
                 this.player.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 250));
 
                 }else {
                     if (this.player.isSwimming() && this.player.level().random.nextInt(6) == 0) {
-                        this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100), this.orcaentity);
+                        this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100, 0, false, false, false), this.orcaentity);
                     }
                 }
 
@@ -603,10 +602,6 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
                 return false;
             }
         }
-
-        /**
-         * Execute a one shot task or start executing a continuous task
-         */
         public void start() {
             this.setTarget(this.trustedLastHurtBy);
             this.target = this.trustedLastHurtBy;

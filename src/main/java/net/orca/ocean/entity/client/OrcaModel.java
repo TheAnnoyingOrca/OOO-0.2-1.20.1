@@ -73,9 +73,9 @@ public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 		this.animate(pEntity.swimIdleAnimationState, OrcaAnimationDefinitions.swimIdle, pAgeInTicks);
 		this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
 		this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
-		if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
-			this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
-		}
+		//if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
+			//this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 2.5F);
+		//}
 
 
 

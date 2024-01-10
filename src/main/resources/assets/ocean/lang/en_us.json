@@ -1,4 +1,5 @@
 {
+  "creativetab.ocean_tab": "Orca's Ocean Overhaul",
   "item.ocean.kelpfish": "Raw Kelpfish",
   "item.ocean.cooked_kelpfish": "Cooked Kelpfish",
   "item.ocean.clump": "Clump",
@@ -60,5 +61,8 @@
 
   "ocean.potion.synergy": "Synergy",
 
-  "itemGroup.oceantab": "Orca's Ocean Overhaul"
+  "itemGroup.oceantab": "Orca's Ocean Overhaul",
+
+  "advancements.adventure.spyglass_at_orca.description":"Look at an Orca through a Spyglass",
+  "advancements.adventure.spyglass_at_orca.title":"Thar e' blows!"
 }
