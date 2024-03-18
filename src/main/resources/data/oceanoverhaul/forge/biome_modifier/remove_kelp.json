@@ -1,0 +1,11 @@
+{
+  "type": "forge:remove_features",
+  "biomes": [
+    "minecraft:deep_cold_ocean",
+    "minecraft:cold_ocean"
+  ],
+  "features": [
+    "minecraft:kelp"
+  ],
+  "step": "vegetal_decoration"
+}

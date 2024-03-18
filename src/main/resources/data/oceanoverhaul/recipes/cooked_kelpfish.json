@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "oceanoverhaul:kelpfish"
+  },
+  "result": "oceanoverhaul:cooked_kelpfish"
+}
