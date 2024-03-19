@@ -5,11 +5,11 @@ import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.orca.oceanoverhaul.OceanOverhaul;
-import net.orca.oceanoverhaul.entity.ModEntities;
+import net.orca.oceanoverhaul.entity.OceanicEntities;
 import net.orca.oceanoverhaul.entity.client.*;
 
 @Mod.EventBusSubscriber(modid = OceanOverhaul.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class ModEventBusClientEvents {
+public class OceanicEventBusClientEvents {
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.ORCA_LAYER, OrcaModel::createBodyLayer);
@@ -34,7 +34,7 @@ public class ModEventBusClientEvents {
     }
     @SubscribeEvent
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
-        event.registerEntityRenderer(ModEntities.ORCA.get(), OrcaRenderer::new);
-        event.registerEntityRenderer(ModEntities.KELPFISH.get(), KelpFishRenderer::new);
+        event.registerEntityRenderer(OceanicEntities.ORCA.get(), OrcaRenderer::new);
+        event.registerEntityRenderer(OceanicEntities.KELPFISH.get(), KelpFishRenderer::new);
     }
 }

@@ -44,13 +44,13 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
-import net.orca.oceanoverhaul.effect.ModEffects;
+import net.orca.oceanoverhaul.effect.OceanicEffects;
 import net.orca.oceanoverhaul.entity.client.orca.eyePatch;
 import net.orca.oceanoverhaul.entity.client.orca.saddlePatch;
 import net.orca.oceanoverhaul.entity.goals.OrcaBreathAirGoal;
 import net.orca.oceanoverhaul.entity.goals.OrcaFollowBoatGoal;
 import net.orca.oceanoverhaul.entity.goals.OrcaJumpGoal;
-import net.orca.oceanoverhaul.item.ModItems;
+import net.orca.oceanoverhaul.item.OceanicItems;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -67,7 +67,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     static final TargetingConditions SWIM_WITH_PLAYER_TARGETING = TargetingConditions.forNonCombat().range(24.0D).ignoreLineOfSight();
 
-    private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.COD, Items.SALMON, ModItems.KELPFISH.get());
+    private static final Ingredient TEMPT_INGREDIENT = Ingredient.of(Items.COD, Items.SALMON, OceanicItems.KELPFISH.get());
 
     private static final EntityDataAccessor<Boolean> DATA_TRUSTING = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Byte> DATA_FLAGS_ID = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.BYTE);
@@ -457,8 +457,8 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
             if (this.player.isSwimming() && this.orcaentity.isTrusting() && this.player.level().random.nextInt(6) == 0) {
                 this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100, 0, false, false, false), this.orcaentity);
-                this.orcaentity.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 250));
-                this.player.addEffect(new MobEffectInstance(ModEffects.SYNERGY.get(), 250));
+                this.orcaentity.addEffect(new MobEffectInstance(OceanicEffects.SYNERGY.get(), 250));
+                this.player.addEffect(new MobEffectInstance(OceanicEffects.SYNERGY.get(), 250));
 
                 }else {
                     if (this.player.isSwimming() && this.player.level().random.nextInt(6) == 0) {

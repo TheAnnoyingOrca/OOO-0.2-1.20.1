@@ -10,7 +10,7 @@ import net.orca.oceanoverhaul.OceanOverhaul;
 import net.orca.oceanoverhaul.entity.custom.KelpFishEntity;
 import net.orca.oceanoverhaul.entity.custom.OrcaEntity;
 
-public class ModEntities {
+public class OceanicEntities {
     public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, OceanOverhaul.MOD_ID);
 

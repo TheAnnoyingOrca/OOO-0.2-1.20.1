@@ -22,7 +22,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.orca.oceanoverhaul.entity.client.othervariants.KelpFishVariant;
-import net.orca.oceanoverhaul.item.ModItems;
+import net.orca.oceanoverhaul.item.OceanicItems;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
@@ -90,7 +90,7 @@ public class KelpFishEntity extends AbstractSchoolingFish {
     @Override
     @Nonnull
     public ItemStack getBucketItemStack() {
-        ItemStack stack = new ItemStack(ModItems.KELPFISH_BUCKET.get());
+        ItemStack stack = new ItemStack(OceanicItems.KELPFISH_BUCKET.get());
         if (this.hasCustomName()) {
             stack.setHoverName(this.getCustomName());
         }

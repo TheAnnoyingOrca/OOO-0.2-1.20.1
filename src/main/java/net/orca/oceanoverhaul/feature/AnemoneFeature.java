@@ -6,15 +6,12 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.SeaPickleBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.CountConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
-import net.orca.oceanoverhaul.block.ModBlocks;
+import net.orca.oceanoverhaul.block.OceanicBlocks;
 
 import java.util.Random;
 
@@ -35,9 +32,10 @@ public class AnemoneFeature extends Feature<CountConfiguration> {
             int i = 0;
             int m = rand.nextInt(3);
             Block type = switch (m) {
-                //case 1 -> ModBlocks.ANEMONE_WHITE.get();
-                //case 2 -> ModBlocks.ANEMONE_SEBAE.get();
-                default -> ModBlocks.ANEMONE_WHITE.get();
+                //case 1 -> ModBlocks.ANEMONE_ORANGE.get();
+                //case 2 -> ModBlocks.ANEMONE_GREEN.get();
+                //case 2 -> ModBlocks.ANEMONE_PURPLE.get()
+                default -> OceanicBlocks.ANEMONE_WHITE.get();
             };
             for(int j = 0; j < context.config().count().sample((RandomSource) rand); ++j) {
                 int k = rand.nextInt(8) - rand.nextInt(8);

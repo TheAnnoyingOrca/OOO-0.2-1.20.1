@@ -11,7 +11,7 @@ import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.orca.oceanoverhaul.entity.ModEntities;
+import net.orca.oceanoverhaul.entity.OceanicEntities;
 import net.orca.oceanoverhaul.entity.client.othervariants.KelpFishVariant;
 
 import javax.annotation.Nullable;
@@ -24,7 +24,7 @@ public class ItemModFishBucket extends MobBucketItem {
     }
     public void appendHoverText(ItemStack itemStack, @Nullable Level level, List<Component> list, TooltipFlag tooltipFlag){
         EntityType fishType = getFishType();
-        if (fishType ==ModEntities.KELPFISH.get()) {
+        if (fishType == OceanicEntities.KELPFISH.get()) {
             CompoundTag compoundnbt = itemStack.getTag();
             if (compoundnbt != null && compoundnbt.contains("BucketVariantTag", 3)) {
                 int i = compoundnbt.getInt("BucketVariantTag");

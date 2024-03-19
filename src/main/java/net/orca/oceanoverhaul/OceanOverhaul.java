@@ -15,15 +15,16 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.orca.oceanoverhaul.block.ModBlocks;
-import net.orca.oceanoverhaul.effect.ModEffects;
-import net.orca.oceanoverhaul.entity.ModEntities;
+import net.orca.oceanoverhaul.block.OceanicBlocks;
+import net.orca.oceanoverhaul.effect.OceanicEffects;
+import net.orca.oceanoverhaul.entity.OceanicEntities;
 import net.orca.oceanoverhaul.entity.client.KelpFishRenderer;
 import net.orca.oceanoverhaul.entity.client.OrcaRenderer;
-import net.orca.oceanoverhaul.item.ModItems;
+import net.orca.oceanoverhaul.feature.OceanicFeatures;
+import net.orca.oceanoverhaul.item.OceanicItems;
 import org.slf4j.Logger;
 
-import static net.orca.oceanoverhaul.item.ModCreativeModeTab.*;
+import static net.orca.oceanoverhaul.item.OceanicCreativeModeTab.*;
 
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(OceanOverhaul.MOD_ID)
@@ -35,13 +36,15 @@ public class OceanOverhaul {
     public OceanOverhaul() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        ModItems.register(modEventBus);
-        ModBlocks.register(modEventBus);
+        OceanicItems.register(modEventBus);
+        OceanicBlocks.register(modEventBus);
+        OceanicFeatures.register(modEventBus);
+
 
         register(modEventBus);
 
-        ModEffects.MOD_EFFECTS.register(modEventBus);
-        ModEntities.register(modEventBus);
+        OceanicEffects.OCEANIC_EFFECTS.register(modEventBus);
+        OceanicEntities.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -50,10 +53,10 @@ public class OceanOverhaul {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(() -> {
-            SpawnPlacements.register(ModEntities.ORCA.get(),
+            SpawnPlacements.register(OceanicEntities.ORCA.get(),
                 SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE,
                     WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
-            SpawnPlacements.register(ModEntities.KELPFISH.get(),
+            SpawnPlacements.register(OceanicEntities.KELPFISH.get(),
                     SpawnPlacements.Type.IN_WATER, Heightmap.Types.WORLD_SURFACE,
                     WaterAnimal::checkSurfaceWaterAnimalSpawnRules);
 
@@ -66,10 +69,10 @@ public class OceanOverhaul {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.WILD_KELP_BLOCK.get(), RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BUDDING_KELP_BLOCK.get(), RenderType.cutout());
-            EntityRenderers.register(ModEntities.ORCA.get(), OrcaRenderer::new);
-            EntityRenderers.register(ModEntities.KELPFISH.get(), KelpFishRenderer::new);
+            ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.WILD_KELP_BLOCK.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.BUDDING_KELP_BLOCK.get(), RenderType.cutout());
+            EntityRenderers.register(OceanicEntities.ORCA.get(), OrcaRenderer::new);
+            EntityRenderers.register(OceanicEntities.KELPFISH.get(), KelpFishRenderer::new);
         }
     }
 }

@@ -66,12 +66,12 @@ public class Anemone extends BushBlock implements SimpleWaterloggedBlock {
     //public BlockState updateShape(BlockState pState, Direction pFacing, BlockState pFacingState, LevelAccessor pLevel, BlockPos pCurrentPos, BlockPos pFacingPos) {
         //if (!pState.canSurvive(pLevel, pCurrentPos)) {
             //return Blocks.AIR.defaultBlockState();
-        //} else {
+       // } else {
             //if (pState.getValue(WATERLOGGED)) {
                 //pLevel.scheduleTick(pCurrentPos, Fluids.WATER, Fluids.WATER.getTickDelay(pLevel));
             //}
 
-            //return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
+           //return super.updateShape(pState, pFacing, pFacingState, pLevel, pCurrentPos, pFacingPos);
         //}
     //}
 

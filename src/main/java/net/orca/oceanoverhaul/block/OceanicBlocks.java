@@ -13,11 +13,12 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.orca.oceanoverhaul.OceanOverhaul;
-import net.orca.oceanoverhaul.item.ModItems;
+import net.orca.oceanoverhaul.block.custom.Anemone;
+import net.orca.oceanoverhaul.item.OceanicItems;
 
 import java.util.function.Supplier;
 
-public class ModBlocks {
+public class OceanicBlocks {
     public static final DeferredRegister<Block> BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, OceanOverhaul.MOD_ID);
 
@@ -30,7 +31,7 @@ public class ModBlocks {
             () -> new Block(BlockBehaviour.Properties.copy(Blocks.CLAY).sound(SoundType.MUD)));
 
     public static final RegistryObject<Block> ANEMONE_WHITE = registerBlock("anemone_white",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.SEA_PICKLE).sound(SoundType.SLIME_BLOCK)));
+            () -> new Anemone(BlockBehaviour.Properties.of().sound(SoundType.SLIME_BLOCK)));
 
 
 
@@ -44,7 +45,7 @@ public class ModBlocks {
 
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
 
-        return ModItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return OceanicItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
     public static void register(IEventBus eventbus) {
