@@ -5,8 +5,7 @@
     "minecraft:cold_ocean"
   ],
   "features": [
-    "oceanoverhaul:anemonefeature",
-    "oceanoverhaul:anemonesmallfeature"
+    "oceanoverhaul:worldgen/placed_feature/anemone"
   ],
   "step": "vegetal_decoration"
 }
