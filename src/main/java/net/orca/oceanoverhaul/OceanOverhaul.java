@@ -71,6 +71,10 @@ public class OceanOverhaul {
         public static void onClientSetup(FMLClientSetupEvent event) {
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.WILD_KELP_BLOCK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.BUDDING_KELP_BLOCK.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.ANEMONE_ORANGE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.ANEMONE_WHITE.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.ANEMONE_GREEN.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.ANEMONE_MAGENTA.get(), RenderType.cutout());
             EntityRenderers.register(OceanicEntities.ORCA.get(), OrcaRenderer::new);
             EntityRenderers.register(OceanicEntities.KELPFISH.get(), KelpFishRenderer::new);
         }

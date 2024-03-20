@@ -13,6 +13,10 @@
   "block.oceanoverhaul.wild_kelp_block": "Wild Kelp Block",
   "block.oceanoverhaul.budding_kelp_block": "Budding Kelp Block",
   "block.oceanoverhaul.sediment": "Sea Sediment",
+  "block.oceanoverhaul.anemone_orange": "Orange Anemone",
+  "block.oceanoverhaul.anemone_white": "White Anemone",
+  "block.oceanoverhaul.anemone_green": "Green Anemone",
+  "block.oceanoverhaul.anemone_magenta": "Magenta Anemone",
 
   "entity.oceanoverhaul.kelpfish.variant_blue_rockfish": "Blue Rockfish",
   "entity.oceanoverhaul.kelpfish.variant_quill_rockfish": "Quill Rockfish",

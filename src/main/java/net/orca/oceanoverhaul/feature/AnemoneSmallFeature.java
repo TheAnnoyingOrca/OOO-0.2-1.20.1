@@ -15,9 +15,9 @@ import net.orca.oceanoverhaul.block.OceanicBlocks;
 
 import java.util.Random;
 
-public class AnemoneFeature extends Feature<CountConfiguration> {
+public class AnemoneSmallFeature extends Feature<CountConfiguration> {
 
-    public AnemoneFeature(Codec<CountConfiguration> p_i231987_1_) {
+    public AnemoneSmallFeature(Codec<CountConfiguration> p_i231987_1_) {
         super(p_i231987_1_);
     }
 
@@ -32,8 +32,8 @@ public class AnemoneFeature extends Feature<CountConfiguration> {
             int i = 0;
             int m = rand.nextInt(3);
             Block type = switch (m) {
-                case 1 -> OceanicBlocks.ANEMONE_ORANGE.get();
-                default -> OceanicBlocks.ANEMONE_WHITE.get();
+                case 1 -> OceanicBlocks.ANEMONE_MAGENTA.get();
+                default -> OceanicBlocks.ANEMONE_GREEN.get();
             };
             for(int j = 0; j < context.config().count().sample((RandomSource) rand); ++j) {
                 int k = rand.nextInt(8) - rand.nextInt(8);

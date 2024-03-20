@@ -1,11 +1,12 @@
 {
-  "type": "forge:remove_features",
+  "type": "forge:add_features",
   "biomes": [
     "minecraft:deep_cold_ocean",
     "minecraft:cold_ocean"
   ],
   "features": [
-    "minecraft:kelp_cold"
+    "oceanoverhaul:anemonefeature",
+    "oceanoverhaul:anemonesmallfeature"
   ],
   "step": "vegetal_decoration"
 }

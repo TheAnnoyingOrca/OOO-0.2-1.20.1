@@ -28,6 +28,9 @@ public class OceanicCreativeModeTab {
                         pOutput.accept(OceanicBlocks.BUDDING_KELP_BLOCK.get());
                         pOutput.accept(OceanicBlocks.SEDIMENT.get());
                         pOutput.accept(OceanicBlocks.ANEMONE_WHITE.get());
+                        pOutput.accept(OceanicBlocks.ANEMONE_ORANGE.get());
+                        pOutput.accept(OceanicBlocks.ANEMONE_GREEN.get());
+                        pOutput.accept(OceanicBlocks.ANEMONE_MAGENTA.get());
                     })
                     .build());
 

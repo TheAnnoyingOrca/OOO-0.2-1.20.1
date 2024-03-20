@@ -14,6 +14,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.orca.oceanoverhaul.OceanOverhaul;
 import net.orca.oceanoverhaul.block.custom.Anemone;
+import net.orca.oceanoverhaul.block.custom.AnemoneSmall;
 import net.orca.oceanoverhaul.item.OceanicItems;
 
 import java.util.function.Supplier;
@@ -32,6 +33,13 @@ public class OceanicBlocks {
 
     public static final RegistryObject<Block> ANEMONE_WHITE = registerBlock("anemone_white",
             () -> new Anemone(BlockBehaviour.Properties.of().sound(SoundType.SLIME_BLOCK)));
+    public static final RegistryObject<Block> ANEMONE_ORANGE = registerBlock("anemone_orange",
+            () -> new Anemone(BlockBehaviour.Properties.of().sound(SoundType.SLIME_BLOCK)));
+
+    public static final RegistryObject<Block> ANEMONE_GREEN = registerBlock("anemone_green",
+            () -> new AnemoneSmall(BlockBehaviour.Properties.of().sound(SoundType.SLIME_BLOCK)));
+    public static final RegistryObject<Block> ANEMONE_MAGENTA = registerBlock("anemone_magenta",
+            () -> new AnemoneSmall(BlockBehaviour.Properties.of().sound(SoundType.SLIME_BLOCK)));
 
 
 

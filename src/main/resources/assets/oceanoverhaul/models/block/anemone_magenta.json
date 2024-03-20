@@ -1,0 +1,107 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "oceanoverhaul:block/anemone_magenta",
+		"particle": "oceanoverhaul:block/anemone_magenta1"
+	},
+	"elements": [
+		{
+			"name": "TentaclesE",
+			"from": [11, 5, 5],
+			"to": [11, 8, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"east": {"uv": [6, 7, 12, 10], "texture": "#0"},
+				"south": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"west": {"uv": [6, 7, 12, 10], "texture": "#0"},
+				"up": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"down": {"uv": [0, 0, 6, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "base",
+			"from": [5, 0, 5],
+			"to": [11, 3, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [6, 10, 12, 13], "texture": "#0"},
+				"east": {"uv": [6, 10, 12, 13], "texture": "#0"},
+				"south": {"uv": [6, 10, 12, 13], "texture": "#0"},
+				"west": {"uv": [6, 10, 12, 13], "texture": "#0"},
+				"up": {"uv": [6, 0, 12, 6], "texture": "#0"},
+				"down": {"uv": [6, 0, 12, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "body",
+			"from": [6, 3, 6],
+			"to": [10, 4, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [0, 6, 4, 7], "texture": "#0"},
+				"east": {"uv": [0, 6, 4, 7], "texture": "#0"},
+				"south": {"uv": [0, 6, 4, 7], "texture": "#0"},
+				"west": {"uv": [0, 6, 4, 7], "texture": "#0"},
+				"up": {"uv": [0, 7, 4, 11], "texture": "#0"},
+				"down": {"uv": [0, 7, 4, 11], "texture": "#0"}
+			}
+		},
+		{
+			"name": "disk",
+			"from": [5, 4, 5],
+			"to": [11, 5, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"east": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"south": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"west": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"up": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"down": {"uv": [6, 0, 0, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "TentaclesN",
+			"from": [5, 5, 5],
+			"to": [11, 8, 5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [6, 7, 12, 10], "texture": "#0"},
+				"east": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"south": {"uv": [6, 7, 12, 10], "texture": "#0"},
+				"west": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"up": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"down": {"uv": [0, 0, 6, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "TentaclesS",
+			"from": [5, 5, 11],
+			"to": [11, 8, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [6, 7, 12, 10], "texture": "#0"},
+				"east": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"south": {"uv": [6, 7, 12, 10], "texture": "#0"},
+				"west": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"up": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"down": {"uv": [0, 0, 6, 6], "texture": "#0"}
+			}
+		},
+		{
+			"name": "TentaclesW",
+			"from": [5, 5, 5],
+			"to": [5, 8, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 0, 8]},
+			"faces": {
+				"north": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"east": {"uv": [12, 7, 6, 10], "texture": "#0"},
+				"south": {"uv": [6, 6, 12, 7], "texture": "#0"},
+				"west": {"uv": [6, 7, 12, 10], "texture": "#0"},
+				"up": {"uv": [0, 0, 6, 6], "texture": "#0"},
+				"down": {"uv": [0, 0, 6, 6], "texture": "#0"}
+			}
+		}
+	]
+}
