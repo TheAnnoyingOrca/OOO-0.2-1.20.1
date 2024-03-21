@@ -128,22 +128,19 @@ public class KelpFishModel<T extends KelpFishEntity> extends HierarchicalModel<T
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, -6.0F, -6.0F, 3.0F, 6.0F, 9.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 10).addBox(0.0F, -8.0F, -2.0F, 0.0F, 10.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(1, 0).addBox(-1.5F, -6.0F, -4.0F, 3.0F, 6.0F, 7.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 10).addBox(0.0F, -8.0F, -2.0F, 0.0F, 10.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(14, 0).addBox(-1.5F, -4.0F, -6.0F, 3.0F, 4.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
 		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(10, 11).addBox(0.0F, -3.0F, 0.0F, 0.0F, 6.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -3.0F, 3.0F));
 
 		PartDefinition leftFin = body.addOrReplaceChild("leftFin", CubeListBuilder.create(), PartPose.offset(1.5F, 0.0F, -3.0F));
 
-		PartDefinition cube_r1 = leftFin.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, 0.0F, -2.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, 0.1F));
+		PartDefinition cube_r1 = leftFin.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 0).addBox(0.0F, 0.0F, -2.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, 0.7854F));
 
 		PartDefinition rightFin = body.addOrReplaceChild("rightFin", CubeListBuilder.create(), PartPose.offset(-1.5F, 0.0F, -3.0F));
 
-		PartDefinition cube_r2 = rightFin.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-3.0F, 0.0F, -2.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, -0.1F));
-		PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(3, 3).addBox(0.0F, 1.5F, 0.0F, 0.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-		PartDefinition leftPelvic = body.addOrReplaceChild("leftPelvic", CubeListBuilder.create().texOffs(5, 2).addBox(2.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(3.0F, 0.0F, 2.0F));
-
-		PartDefinition rightPelvic = body.addOrReplaceChild("rightPelvic", CubeListBuilder.create().texOffs(5, 2).mirror().addBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-3.0F, 0.0F, 2.0F));
+		PartDefinition cube_r2 = rightFin.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(0, 0).mirror().addBox(-3.0F, 0.0F, -2.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 2.0F, 0.0F, 0.0F, -0.7854F));
 
 		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
@@ -268,22 +265,24 @@ public class KelpFishModel<T extends KelpFishEntity> extends HierarchicalModel<T
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
 		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-1.5F, -3.0F, -3.0F, 3.0F, 3.0F, 6.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 8).addBox(0.0F, -6.0F, -1.0F, 0.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-				.texOffs(0, 0).addBox(0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+				.texOffs(0, 7).addBox(0.0F, -6.0F, -1.0F, 0.0F, 4.0F, 5.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 0).addBox(0.0F, 0.0F, 1.0F, 0.0F, 1.0F, 2.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 0).addBox(-0.5F, -1.0F, -4.0F, 1.0F, 1.0F, 1.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(0, 5).addBox(0.0F, -1.5F, 0.0F, 0.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.5F, 3.0F));
+		PartDefinition cube_r1 = body.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(-2, 3).mirror().addBox(-2.0F, 0.0F, 0.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(-1.5F, 0.0F, 2.0F, 0.0F, 0.0F, -0.7854F));
+
+		PartDefinition cube_r2 = body.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(-2, 3).addBox(0.0F, 0.0F, 0.0F, 2.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(1.5F, 0.0F, 2.0F, 0.0F, 0.0F, 0.7854F));
+
+		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(0, 4).addBox(0.0F, -0.5F, 0.0F, 0.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -1.5F, 3.0F));
 
 		PartDefinition leftFin = body.addOrReplaceChild("leftFin", CubeListBuilder.create(), PartPose.offset(1.5F, 0.0F, -1.0F));
 
-		PartDefinition cube_r1 = leftFin.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(10, 0).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F));
+		PartDefinition cube_r3 = leftFin.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(10, 0).addBox(0.0F, 0.0F, 0.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.5236F));
 
 		PartDefinition rightFin = body.addOrReplaceChild("rightFin", CubeListBuilder.create(), PartPose.offset(-1.5F, 0.0F, -1.0F));
 
-		PartDefinition cube_r2 = rightFin.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(10, 0).mirror().addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.0F));
-		PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(3, 3).addBox(0.0F, 1.5F, 0.0F, 0.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
-		PartDefinition leftPelvic = body.addOrReplaceChild("leftPelvic", CubeListBuilder.create().texOffs(5, 2).addBox(2.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)), PartPose.offset(3.0F, 0.0F, 2.0F));
+		PartDefinition cube_r4 = rightFin.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(10, 0).mirror().addBox(-3.0F, 0.0F, 0.0F, 3.0F, 0.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, -0.5236F));
 
-		PartDefinition rightPelvic = body.addOrReplaceChild("rightPelvic", CubeListBuilder.create().texOffs(5, 2).mirror().addBox(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offset(-3.0F, 0.0F, 2.0F));
 		return LayerDefinition.create(meshdefinition, 32, 32);
 	}
 	public static LayerDefinition createCatSharkBodyLayer() {
@@ -406,7 +405,7 @@ public class KelpFishModel<T extends KelpFishEntity> extends HierarchicalModel<T
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(12, 0).addBox(-1.5F, -1.5F, -3.0F, 3.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(12, 0).addBox(-1.0F, -1.5F, -3.0F, 2.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 0).addBox(-1.0F, -1.5F, 0.0F, 2.0F, 2.0F, 4.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 0).addBox(0.0F, -1.5F, -9.0F, 0.0F, 3.0F, 6.0F, new CubeDeformation(0.0F))
 				.texOffs(0, 11).addBox(0.0F, -2.5F, 0.0F, 0.0F, 1.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 22.5F, 0.0F));

@@ -6,7 +6,7 @@
   ],
   "spawners": {
     "type": "oceanoverhaul:kelpfish",
-    "weight": 30,
+    "weight": 40,
     "minCount": 2,
     "maxCount": 5
   }

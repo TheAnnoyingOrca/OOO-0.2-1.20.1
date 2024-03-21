@@ -1,10 +1,6 @@
 {
-  "feature": [
-    "oceanoverhaul:anemone_white",
-    "oceanoverhaul:anemone_orange",
-    "oceanoverhaul:anemone_green",
-    "oceanoverhaul:anemone_magenta"
-  ],
+  "feature":
+    "oceanoverhaul:anemone",
   "placement": [
     {
       "type": "minecraft:rarity_filter",

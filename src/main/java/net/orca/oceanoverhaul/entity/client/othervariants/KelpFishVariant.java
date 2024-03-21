@@ -17,7 +17,7 @@ public enum KelpFishVariant implements StringRepresentable {
     PAINTED_GREENLING(6, "painted_greenling", "greenling"),
     KELP_GREENLING(7, "kelp_greenling", "greenling"),
     STRIPED_SEA_PERCH(8, "striped_sea_perch", "perch"),
-    JEWELED_SEA_PERCH(9, "jeweled_sea_perch", "perch"),
+    KELP_SEA_PERCH(9, "kelp_sea_perch", "perch"),
     WARTY_POACHER(10, "warty_poacher", "poacher"),
     ROCK_POACHER(11, "rock_poacher", "poacher"),
     SAILFIN(12, "sailfin", "sailfin"),
@@ -47,7 +47,11 @@ public enum KelpFishVariant implements StringRepresentable {
     PRICKLEBACK(36, "prickleback", "ronquil"),
     ROCK_GREENLING(37, "rock_greenling", "greenling"),
     SURFPERCH(38, "surfperch", "perch"),
-    SABLEFISH(39, "sablefish", "lingcod");
+    SABLEFISH(39, "sablefish", "lingcod"),
+    BROWN_ROCKFISH(40, "brown_rockfish", "rockfish"),
+    LIZARDFISH(41, "lizardfish", "lancet"),
+    ROSETHORN_ROCKFISH(42, "rosethorn_rockfish", "rockfish"),
+    FROSTFISH(43, "frostfish", "snipe");
 
     private static final IntFunction<KelpFishVariant> BY_ID;
     public static final Codec<KelpFishVariant> CODEC;

@@ -27,7 +27,7 @@
   "entity.oceanoverhaul.kelpfish.variant_painted_greenling": "Painted Greenling",
   "entity.oceanoverhaul.kelpfish.variant_kelp_greenling": "Kelp Greenling",
   "entity.oceanoverhaul.kelpfish.variant_striped_sea_perch": "Striped Sea Perch",
-  "entity.oceanoverhaul.kelpfish.variant_jeweled_sea_perch": "Jeweled Sea Perch",
+  "entity.oceanoverhaul.kelpfish.variant_kelp_sea_perch": "Kelp Sea Perch",
   "entity.oceanoverhaul.kelpfish.variant_warty_poacher": "Warty Poacher",
   "entity.oceanoverhaul.kelpfish.variant_rock_poacher": "Rock Poacher",
   "entity.oceanoverhaul.kelpfish.variant_sailfin": "Sailfin",
@@ -58,6 +58,10 @@
   "entity.oceanoverhaul.kelpfish.variant_rock_greenling": "Rock Greenling",
   "entity.oceanoverhaul.kelpfish.variant_surfperch": "Surfperch",
   "entity.oceanoverhaul.kelpfish.variant_sablefish": "Sablefish",
+  "entity.oceanoverhaul.kelpfish.variant_brown_rockfish": "Brown Rockfish",
+  "entity.oceanoverhaul.kelpfish.variant_rosethorn_rockfish": "Rosethorn Rockfish",
+  "entity.oceanoverhaul.kelpfish.variant_lizardfish": "Lizardfish",
+  "entity.oceanoverhaul.kelpfish.variant_frostfish": "Frostfish",
 
 
   "entity.oceanoverhaul.orca": "Orca",
