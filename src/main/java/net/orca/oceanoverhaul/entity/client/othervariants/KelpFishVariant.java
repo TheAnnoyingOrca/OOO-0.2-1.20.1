@@ -44,14 +44,24 @@ public enum KelpFishVariant implements StringRepresentable {
     THREADFIN_SCULPIN(33, "threadfin_sculpin", "sailfin"),
     MOSSY_WARBONNET(34, "mossy_warbonnet", "warbonnet"),
     POMPANO(35, "pompano", "perch"),
-    PRICKLEBACK(36, "prickleback", "ronquil"),
+    BLUE_PRICKLEBACK(36, "blue_prickleback", "ronquil"),
     ROCK_GREENLING(37, "rock_greenling", "greenling"),
     SURFPERCH(38, "surfperch", "perch"),
     SABLEFISH(39, "sablefish", "lingcod"),
     BROWN_ROCKFISH(40, "brown_rockfish", "rockfish"),
     LIZARDFISH(41, "lizardfish", "lancet"),
     ROSETHORN_ROCKFISH(42, "rosethorn_rockfish", "rockfish"),
-    FROSTFISH(43, "frostfish", "snipe");
+    FROSTFISH(43, "frostfish", "snipe"),
+    SEA_RAVEN(44, "sea_raven", "sailfin"),
+    LONGFIN(45, "longfin", "sailfin"),
+    CALICO(46, "calico", "sailfin"),
+    KELP_POACHER(47, "kelp_poacher", "sailfin"),
+    RIBBON_PRICKLEBACK(48, "ribbon_prickleback", "ronquil"),
+    MIDSHIPMAN(49, "midshipman", "cabezon"),
+    GREAT_SCULPIN(50, "great_sculpin", "cabezon"),
+    RED_LORD(51, "red_lord", "cabezon"),
+    SHADOW_SCULPIN(52, "shadow_sculpin", "cabezon"),
+    SNAILFISH(53, "snailfish", "lump");
 
     private static final IntFunction<KelpFishVariant> BY_ID;
     public static final Codec<KelpFishVariant> CODEC;
