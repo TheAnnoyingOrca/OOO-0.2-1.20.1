@@ -10,6 +10,11 @@
 
   "item.oceanoverhaul.kelpfish_bucket": "Kelpfish Bucket",
 
+  "item.oceanoverhaul.banner_pattern_orca": "Banner Pattern",
+  "item.oceanoverhaul.banner_pattern_orca.desc": "Orca",
+  "item.oceanoverhaul.banner_pattern_lancet": "Banner Pattern",
+  "item.oceanoverhaul.banner_pattern_lancet.desc": "Lancetfish",
+
   "block.oceanoverhaul.wild_kelp_block": "Wild Kelp Block",
   "block.oceanoverhaul.budding_kelp_block": "Budding Kelp Block",
   "block.oceanoverhaul.sediment": "Sea Sediment",

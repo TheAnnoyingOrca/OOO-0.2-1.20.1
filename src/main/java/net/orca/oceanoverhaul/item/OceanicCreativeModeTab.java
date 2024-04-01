@@ -31,6 +31,9 @@ public class OceanicCreativeModeTab {
                         pOutput.accept(OceanicBlocks.ANEMONE_ORANGE.get());
                         pOutput.accept(OceanicBlocks.ANEMONE_GREEN.get());
                         pOutput.accept(OceanicBlocks.ANEMONE_MAGENTA.get());
+                        pOutput.accept(OceanicItems.BANNER_PATTERN_ORCA.get());
+                        pOutput.accept(OceanicItems.BANNER_PATTERN_LANCET.get());
+
                     })
                     .build());
 

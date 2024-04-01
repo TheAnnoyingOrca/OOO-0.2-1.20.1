@@ -22,6 +22,7 @@ import net.orca.oceanoverhaul.entity.client.KelpFishRenderer;
 import net.orca.oceanoverhaul.entity.client.OrcaRenderer;
 import net.orca.oceanoverhaul.feature.OceanicFeatures;
 import net.orca.oceanoverhaul.item.OceanicItems;
+import net.orca.oceanoverhaul.misc.OceanicBanner;
 import org.slf4j.Logger;
 
 import static net.orca.oceanoverhaul.item.OceanicCreativeModeTab.*;
@@ -39,6 +40,7 @@ public class OceanOverhaul {
         OceanicItems.register(modEventBus);
         OceanicBlocks.register(modEventBus);
         OceanicFeatures.register(modEventBus);
+        OceanicBanner.BANNER_PATTERNS.register(modEventBus);
 
 
         register(modEventBus);
