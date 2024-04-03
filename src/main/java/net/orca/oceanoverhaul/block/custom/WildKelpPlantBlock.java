@@ -11,6 +11,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
+import net.orca.oceanoverhaul.block.OceanicBlocks;
 
 public class WildKelpPlantBlock extends GrowingPlantBodyBlock implements LiquidBlockContainer {
     public WildKelpPlantBlock(BlockBehaviour.Properties p_54323_) {
@@ -18,16 +19,16 @@ public class WildKelpPlantBlock extends GrowingPlantBodyBlock implements LiquidB
     }
 
     protected GrowingPlantHeadBlock getHeadBlock() {
-        return (GrowingPlantHeadBlock) Blocks.WILD_KELP_HEAD;
+        return (GrowingPlantHeadBlock) OceanicBlocks.WILD_KELP_HEAD;
     }
 
     public FluidState getFluidState(BlockState pState) {
         return Fluids.WATER.getSource(false);
     }
 
-    protected boolean canAttachTo(BlockState pState) {
-        return this.getHeadBlock().canAttachTo(pState);
-    }
+    //protected boolean canAttachTo(BlockState pState) {
+        //return this.getHeadBlock().canAttachTo(pState);
+    //}
 
 
     public boolean canPlaceLiquid(BlockGetter pLevel, BlockPos pPos, BlockState pState, Fluid pFluid) {

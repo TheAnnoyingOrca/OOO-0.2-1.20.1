@@ -17,6 +17,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.orca.oceanoverhaul.block.OceanicBlocks;
 
 import javax.annotation.Nullable;
 
@@ -32,8 +33,8 @@ public class WildKelpHead extends GrowingPlantHeadBlock implements LiquidBlockCo
         return pState.is(Blocks.WATER);
     }
 
-    protected Block getBodyBlock() {
-        return Blocks.WILD_KELP_PLANT;
+    public Block getBodyBlock() {
+        return OceanicBlocks.WILD_KELP_PLANT;
     }
 
     protected boolean canAttachTo(BlockState pState) {
