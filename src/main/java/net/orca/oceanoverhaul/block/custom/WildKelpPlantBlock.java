@@ -19,7 +19,7 @@ public class WildKelpPlantBlock extends GrowingPlantBodyBlock implements LiquidB
     }
 
     protected GrowingPlantHeadBlock getHeadBlock() {
-        return (GrowingPlantHeadBlock) OceanicBlocks.WILD_KELP_HEAD;
+        return (GrowingPlantHeadBlock) OceanicBlocks.WILD_KELP_HEAD.get();
     }
 
     public FluidState getFluidState(BlockState pState) {

@@ -22,7 +22,7 @@ import net.orca.oceanoverhaul.block.OceanicBlocks;
 import javax.annotation.Nullable;
 
 public class WildKelpHead extends GrowingPlantHeadBlock implements LiquidBlockContainer {
-    protected static final VoxelShape SHAPE = Block.box(16.0D, 16.0D, 16.0D, 16.0D, 9.0D, 16.0D);
+    protected static final VoxelShape SHAPE = Block.box(0.0D, 0.0D, 0.0D, 16.0D, 13.0D, 16.0D);
     private static final double GROW_PER_TICK_PROBABILITY = 0.14D;
 
     public WildKelpHead(BlockBehaviour.Properties p_54300_) {
@@ -34,7 +34,7 @@ public class WildKelpHead extends GrowingPlantHeadBlock implements LiquidBlockCo
     }
 
     public Block getBodyBlock() {
-        return OceanicBlocks.WILD_KELP_PLANT;
+        return OceanicBlocks.WILD_KELP_PLANT.get();
     }
 
     protected boolean canAttachTo(BlockState pState) {

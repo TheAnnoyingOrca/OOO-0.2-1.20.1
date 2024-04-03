@@ -28,8 +28,8 @@ public class WildKelpFeature extends Feature<NoneFeatureConfiguration> {
         int j = worldgenlevel.getHeight(Heightmap.Types.OCEAN_FLOOR, blockpos.getX(), blockpos.getZ());
         BlockPos blockpos1 = new BlockPos(blockpos.getX(), j, blockpos.getZ());
         if (worldgenlevel.getBlockState(blockpos1).is(Blocks.WATER)) {
-            BlockState blockstate = OceanicBlocks.WILD_KELP_HEAD.defaultBlockState();
-            BlockState blockstate1 = OceanicBlocks.WILD_KELP_PLANT.defaultBlockState();
+            BlockState blockstate = OceanicBlocks.WILD_KELP_HEAD.get().defaultBlockState();
+            BlockState blockstate1 = OceanicBlocks.WILD_KELP_PLANT.get().defaultBlockState();
             int k = 1 + randomsource.nextInt(10);
 
             for(int l = 0; l <= k; ++l) {
@@ -42,7 +42,7 @@ public class WildKelpFeature extends Feature<NoneFeatureConfiguration> {
                     }
                 } else if (l > 0) {
                     BlockPos blockpos2 = blockpos1.below();
-                    if (blockstate.canSurvive(worldgenlevel, blockpos2) && !worldgenlevel.getBlockState(blockpos2.below()).is(OceanicBlocks.WILD_KELP_HEAD)) {
+                    if (blockstate.canSurvive(worldgenlevel, blockpos2) && !worldgenlevel.getBlockState(blockpos2.below()).is(OceanicBlocks.WILD_KELP_HEAD.get())) {
                         worldgenlevel.setBlock(blockpos2, blockstate.setValue(WildKelpHead.AGE, Integer.valueOf(randomsource.nextInt(4) + 20)), 2);
                         ++i;
                     }

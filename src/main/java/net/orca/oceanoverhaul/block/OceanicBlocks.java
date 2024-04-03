@@ -43,9 +43,9 @@ public class OceanicBlocks {
     public static final RegistryObject<Block> ANEMONE_MAGENTA = registerBlock("anemone_magenta",
             () -> new AnemoneSmall(BlockBehaviour.Properties.of().sound(SoundType.SLIME_BLOCK)));
     public static final RegistryObject<Block> WILD_KELP_HEAD = registerBlock("wild_kelp",
-            () -> new WildKelpHead(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS)));
+            () -> new WildKelpHead(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS).noCollission()));
     public static final RegistryObject<Block> WILD_KELP_PLANT = registerBlock("wild_kelp_plant",
-            () -> new WildKelpPlantBlock(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS)));
+            () -> new WildKelpPlantBlock(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS).noCollission()));
 
 
 
