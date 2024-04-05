@@ -1,5 +1,8 @@
 package net.orca.oceanoverhaul.feature;
 
+import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.CountConfiguration;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,7 +21,9 @@ public class OceanicFeatures {
     public static final RegistryObject<Feature<?>> ANEMONE_ORANGE = OCEANIC_FEATURES.register("anemone_orange", () -> new AnemoneFeature(CountConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> ANEMONE_GREEN = OCEANIC_FEATURES.register("anemone_green", () -> new AnemoneSmallFeature(CountConfiguration.CODEC));
     public static final RegistryObject<Feature<?>> ANEMONE_MAGENTA = OCEANIC_FEATURES.register("anemone_magenta", () -> new AnemoneSmallFeature(CountConfiguration.CODEC));
+    public static final RegistryObject<Feature<?>> WILD_KELP = OCEANIC_FEATURES.register("wild_kelp", () -> new WildKelpFeature(CountConfiguration.CODEC));
 
     public static void register(IEventBus modEventBus) {
     };
+
 }

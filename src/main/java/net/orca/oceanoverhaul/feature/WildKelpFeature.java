@@ -5,22 +5,22 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.KelpBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
+import net.minecraft.world.level.levelgen.feature.configurations.CountConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.orca.oceanoverhaul.block.OceanicBlocks;
 import net.orca.oceanoverhaul.block.custom.WildKelpHead;
 
-public class WildKelpFeature extends Feature<NoneFeatureConfiguration> {
-    public WildKelpFeature(Codec<NoneFeatureConfiguration> p_66219_) {
+public class WildKelpFeature extends Feature<CountConfiguration> {
+    public WildKelpFeature(Codec<CountConfiguration> p_66219_) {
         super(p_66219_);
     }
 
 
-    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> p_159956_) {
+    public boolean place(FeaturePlaceContext<CountConfiguration> p_159956_) {
         int i = 0;
         WorldGenLevel worldgenlevel = p_159956_.level();
         BlockPos blockpos = p_159956_.origin();
