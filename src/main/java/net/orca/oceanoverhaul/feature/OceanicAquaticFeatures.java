@@ -9,11 +9,9 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraftforge.eventbus.api.IEventBus;
 
 public class OceanicAquaticFeatures {
-    public static final ResourceKey<ConfiguredFeature<?, ?>> WILD_KELP = FeatureUtils.createKey("wild_kelp");
+    public static final ResourceKey<NoneFeatureConfiguration> WILD_KELP = FeatureUtils.createKey("wild_kelp");
 
-    public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> pContext) {
-        FeatureUtils.register(pContext, WILD_KELP, (Feature<NoneFeatureConfiguration>) OceanicFeatures.WILD_KELP.get());
-    }
+
 
     public static void register(IEventBus modEventBus) {
     }
