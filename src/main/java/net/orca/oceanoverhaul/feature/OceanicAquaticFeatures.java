@@ -8,11 +8,11 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.eventbus.api.IEventBus;
 
-public class OceanicAquaticFeatures {
-    public static final ResourceKey<NoneFeatureConfiguration> WILD_KELP = FeatureUtils.createKey("wild_kelp");
+//public class OceanicAquaticFeatures {
+    //public static final ResourceKey<NoneFeatureConfiguration> WILD_KELP = FeatureUtils.createKey("wild_kelp");
 
 
 
-    public static void register(IEventBus modEventBus) {
-    }
-}
+    //public static void register(IEventBus modEventBus) {
+    //}
+//}
