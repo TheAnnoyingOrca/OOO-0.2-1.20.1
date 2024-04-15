@@ -46,6 +46,7 @@ public class WildKelpFeature extends Feature<NoneFeatureConfiguration> {
                         worldgenlevel.setBlock(blockpos2, blockstate.setValue(WildKelpHead.AGE, Integer.valueOf(randomsource.nextInt(4) + 20)), 2);
                         ++i;
                     }
+
                     break;
                 }
 

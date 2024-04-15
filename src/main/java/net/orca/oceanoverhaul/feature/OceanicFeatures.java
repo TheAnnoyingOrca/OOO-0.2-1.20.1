@@ -25,6 +25,7 @@ public class OceanicFeatures {
     public static final RegistryObject<Feature<NoneFeatureConfiguration>> WILD_KELP = OCEANIC_FEATURES.register("wild_kelp", () -> new WildKelpFeature(NoneFeatureConfiguration.CODEC));
 
     public static void register(IEventBus modEventBus) {
+
     };
 
 }
