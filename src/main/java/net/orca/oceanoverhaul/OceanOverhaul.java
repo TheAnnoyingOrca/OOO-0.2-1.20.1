@@ -75,6 +75,7 @@ public class OceanOverhaul {
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.WILD_KELP_BLOCK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.WILD_KELP_HEAD.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.WILD_KELP_PLANT.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.RED_ALGAE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.BUDDING_KELP_BLOCK.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.ANEMONE_ORANGE.get(), RenderType.cutout());
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.ANEMONE_WHITE.get(), RenderType.cutout());

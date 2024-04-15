@@ -13,10 +13,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import net.orca.oceanoverhaul.OceanOverhaul;
-import net.orca.oceanoverhaul.block.custom.Anemone;
-import net.orca.oceanoverhaul.block.custom.AnemoneSmall;
-import net.orca.oceanoverhaul.block.custom.WildKelpHead;
-import net.orca.oceanoverhaul.block.custom.WildKelpPlantBlock;
+import net.orca.oceanoverhaul.block.custom.*;
 import net.orca.oceanoverhaul.item.OceanicItems;
 
 import java.util.function.Supplier;
@@ -46,6 +43,8 @@ public class OceanicBlocks {
             () -> new WildKelpHead(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS).noCollission()));
     public static final RegistryObject<Block> WILD_KELP_PLANT = registerBlock("wild_kelp_plant",
             () -> new WildKelpPlantBlock(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS).noCollission()));
+    public static final RegistryObject<Block> RED_ALGAE = registerBlock("red_algae",
+            () -> new RedAlgae(BlockBehaviour.Properties.of().sound(SoundType.WET_GRASS).noCollission()));
 
 
 

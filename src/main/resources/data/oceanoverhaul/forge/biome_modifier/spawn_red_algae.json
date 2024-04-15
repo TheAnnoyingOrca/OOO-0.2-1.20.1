@@ -1,0 +1,11 @@
+{
+  "type": "forge:add_features",
+  "biomes": [
+    "minecraft:deep_cold_ocean",
+    "minecraft:cold_ocean"
+  ],
+  "features": [
+    "oceanoverhaul:red_algae"
+  ],
+  "step": "vegetal_decoration"
+}
