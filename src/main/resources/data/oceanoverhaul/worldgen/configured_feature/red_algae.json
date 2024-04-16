@@ -1,6 +1,30 @@
 {
-  "type": "oceanoverhaul:red_algae",
+  "type": "minecraft:random_patch",
   "config": {
-    "probability": 0.3
+    "tries": 40,
+    "xz_spread": 5,
+    "y_spread": 7,
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:simple_state_provider",
+            "state": {
+              "Name": "oceanoverhaul:red_algae"
+            }
+          }
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:water"
+          }
+        }
+      ]
+    }
   }
 }
