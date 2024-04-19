@@ -10,7 +10,11 @@ public enum saddlePatch {
     STYLISH(3),
     SLENDER(4),
     SCARRED(5),
-    ;
+    QUAINT(6),
+    SWIRL(7),
+    CURVY(8),
+    HOMELY(9),
+    SPIKED(10);
 
     private static final saddlePatch[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(saddlePatch::getId)).toArray((p_30873_) -> {
         return new saddlePatch[p_30873_];

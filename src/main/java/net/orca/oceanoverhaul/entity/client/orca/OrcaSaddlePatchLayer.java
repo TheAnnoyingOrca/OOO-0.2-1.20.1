@@ -27,6 +27,11 @@ public class OrcaSaddlePatchLayer extends RenderLayer<OrcaEntity, OrcaModel<Orca
         p_117069_.put(saddlePatch.STYLISH, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_stylish.png"));
         p_117069_.put(saddlePatch.SLENDER, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_slender.png"));
         p_117069_.put(saddlePatch.SCARRED, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_scarred.png"));
+        p_117069_.put(saddlePatch.QUAINT, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_quaint.png"));
+        p_117069_.put(saddlePatch.SWIRL, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_swirl.png"));
+        p_117069_.put(saddlePatch.CURVY, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_curvy.png"));
+        p_117069_.put(saddlePatch.HOMELY, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_homely.png"));
+        p_117069_.put(saddlePatch.SPIKED, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_spiked.png"));
     });
 
     public OrcaSaddlePatchLayer(RenderLayerParent<OrcaEntity, OrcaModel<OrcaEntity>> pRenderer) {
