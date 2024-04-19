@@ -15,7 +15,7 @@ public class OceanicEntities {
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, OceanOverhaul.MOD_ID);
 
     public static final RegistryObject<EntityType<OrcaEntity>> ORCA =
-            ENTITY_TYPES.register("orca", () -> EntityType.Builder.of(OrcaEntity::new, MobCategory.WATER_CREATURE).sized(3.5f, 1.5f).build("orca"));
+            ENTITY_TYPES.register("orca", () -> EntityType.Builder.of(OrcaEntity::new, MobCategory.WATER_CREATURE).sized(3.5f, 1.4f).build("orca"));
     public static final RegistryObject<EntityType<KelpFishEntity>> KELPFISH =
             ENTITY_TYPES.register("kelpfish", () -> EntityType.Builder.of(KelpFishEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.3f).build("kelpfish"));
 

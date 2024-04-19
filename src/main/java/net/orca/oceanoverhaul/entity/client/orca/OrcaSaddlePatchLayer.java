@@ -26,6 +26,7 @@ public class OrcaSaddlePatchLayer extends RenderLayer<OrcaEntity, OrcaModel<Orca
         p_117069_.put(saddlePatch.WORRYWORT, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_worrywort.png"));
         p_117069_.put(saddlePatch.STYLISH, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_stylish.png"));
         p_117069_.put(saddlePatch.SLENDER, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_slender.png"));
+        p_117069_.put(saddlePatch.SCARRED, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/saddlepatches/saddlepatch_scarred.png"));
     });
 
     public OrcaSaddlePatchLayer(RenderLayerParent<OrcaEntity, OrcaModel<OrcaEntity>> pRenderer) {

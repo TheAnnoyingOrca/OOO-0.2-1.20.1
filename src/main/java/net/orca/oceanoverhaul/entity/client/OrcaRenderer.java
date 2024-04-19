@@ -12,9 +12,9 @@ import net.orca.oceanoverhaul.entity.custom.OrcaEntity;
 
 public class OrcaRenderer extends MobRenderer<OrcaEntity, OrcaModel<OrcaEntity>> {
     public OrcaRenderer(EntityRendererProvider.Context pContext ) {
-        super(pContext, new OrcaModel<>(pContext.bakeLayer(ModModelLayers.ORCA_LAYER)), 3.5f);
-        this.addLayer(new OrcaEyePatchLayer(this));
+        super(pContext, new OrcaModel<>(pContext.bakeLayer(ModModelLayers.ORCA_LAYER)), 3f);
         this.addLayer(new OrcaSaddlePatchLayer(this));
+        this.addLayer(new OrcaEyePatchLayer(this));
         //this.addLayer(new OrcaHeldItemLayer(this, pContext.getItemInHandRenderer()));
     }
 
