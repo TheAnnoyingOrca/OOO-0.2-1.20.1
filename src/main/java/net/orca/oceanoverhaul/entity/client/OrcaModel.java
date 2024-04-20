@@ -62,17 +62,17 @@ public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 	public ModelPart root() {
 		return head;
 	}
-	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
+	public void setupAnim(T pEntity, float pLimbSwing, float pLimbSwingAmount, float pAgeInTicks, float pHeadYaw, float pHeadPitch) {
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 		this.head.xRot = pHeadPitch * ((float)Math.PI / 180F);
-		this.head.yRot = pNetHeadYaw * ((float)Math.PI / 180F);
+		this.head.yRot = pHeadYaw * ((float)Math.PI / 180F);
 		if (pEntity.isInWaterOrBubble()){
 			if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
 				//this.animateWalk(OrcaAnimationDefinitions.swim, pLimbSwing, pLimbSwingAmount,2.0F, 2.5F);
 				//this.animate(pEntity.swimIdleAnimationState, OrcaAnimationDefinitions.swimIdle, pAgeInTicks);
 				this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
-				this.tail.xRot = -0.3F * Mth.cos(+1.0F - pAgeInTicks * 0.3F);
-				this.tail.yRot = (-pNetHeadYaw/4*(3 - pLimbSwingAmount));
+				this.tail.xRot =-0.1F * Mth.cos(+1.0F - pAgeInTicks * 0.3F);
+				this.tail.yRot = (-pHeadYaw/4*(3 - pLimbSwingAmount));
 				this.fluke.xRot = -0.5F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
 
 			}
