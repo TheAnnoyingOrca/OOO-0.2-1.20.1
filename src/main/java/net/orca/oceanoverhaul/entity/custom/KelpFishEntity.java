@@ -120,10 +120,6 @@ public class KelpFishEntity extends AbstractSchoolingFish {
     }
 
 
-    //public ItemStack getBucketItemStack() {
-    //    return new ItemStack(Items.);
-    //}
-//
     protected SoundEvent getAmbientSound() {
         return SoundEvents.SALMON_AMBIENT;
     }

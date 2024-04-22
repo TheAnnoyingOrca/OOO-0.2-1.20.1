@@ -19,7 +19,7 @@ import net.orca.oceanoverhaul.item.OceanicItems;
 import java.util.function.Supplier;
 
 public class OceanicBlocks {
-    public static final DeferredRegister<Block> BLOCKS =
+    public static final DeferredRegister<Block> OCEANIC_BLOCKS =
             DeferredRegister.create(ForgeRegistries.BLOCKS, OceanOverhaul.MOD_ID);
 
     public static final RegistryObject<Block> WILD_KELP_BLOCK = registerBlock("wild_kelp_block",
@@ -50,7 +50,7 @@ public class OceanicBlocks {
 
 
     private static <T extends  Block>RegistryObject<T> registerBlock(String name, Supplier<T> block) {
-        RegistryObject<T> toReturn = BLOCKS.register(name, block);
+        RegistryObject<T> toReturn = OCEANIC_BLOCKS.register(name, block);
         registerBlockItem(name, toReturn);
 
         return toReturn;
@@ -58,10 +58,10 @@ public class OceanicBlocks {
 
     private static <T extends Block> RegistryObject<Item> registerBlockItem(String name, RegistryObject<T> block) {
 
-        return OceanicItems.ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
+        return OceanicItems.OCEANIC_ITEMS.register(name, () -> new BlockItem(block.get(), new Item.Properties()));
     }
 
     public static void register(IEventBus eventbus) {
-        BLOCKS.register(eventbus);
+        OCEANIC_BLOCKS.register(eventbus);
     }
 }

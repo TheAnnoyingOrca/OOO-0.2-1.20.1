@@ -38,20 +38,18 @@ public class OceanOverhaul {
     public OceanOverhaul() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        OceanicItems.register(modEventBus);
-        OceanicBlocks.register(modEventBus);
+        OceanicItems.OCEANIC_ITEMS.register(modEventBus);
+        OceanicBlocks.OCEANIC_BLOCKS.register(modEventBus);
         OceanicFeatures.OCEANIC_FEATURES.register(modEventBus);
         OceanicBanner.BANNER_PATTERNS.register(modEventBus);
 
-
-        register(modEventBus);
-
         OceanicEffects.OCEANIC_EFFECTS.register(modEventBus);
-        OceanicEntities.register(modEventBus);
+        OceanicEntities.OCEANIC_ENTITY_TYPES.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
         MinecraftForge.EVENT_BUS.register(this);
+        register(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
@@ -85,4 +83,5 @@ public class OceanOverhaul {
             EntityRenderers.register(OceanicEntities.KELPFISH.get(), KelpFishRenderer::new);
         }
     }
+
 }

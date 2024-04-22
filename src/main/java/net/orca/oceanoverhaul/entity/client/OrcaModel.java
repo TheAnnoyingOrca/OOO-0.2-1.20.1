@@ -72,7 +72,7 @@ public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 				//this.animate(pEntity.swimIdleAnimationState, OrcaAnimationDefinitions.swimIdle, pAgeInTicks);
 				this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
 				this.tail.xRot =-0.1F * Mth.cos(+1.0F - pAgeInTicks * 0.3F);
-				this.tail.yRot = (-pHeadYaw/4*(3 - pLimbSwingAmount));
+				//this.tail.yRot = (-pHeadYaw/4*(3 - pLimbSwingAmount));
 				this.fluke.xRot = -0.5F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
 
 			}

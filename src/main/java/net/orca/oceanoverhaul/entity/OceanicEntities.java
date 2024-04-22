@@ -11,15 +11,15 @@ import net.orca.oceanoverhaul.entity.custom.KelpFishEntity;
 import net.orca.oceanoverhaul.entity.custom.OrcaEntity;
 
 public class OceanicEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITY_TYPES =
+    public static final DeferredRegister<EntityType<?>> OCEANIC_ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, OceanOverhaul.MOD_ID);
 
     public static final RegistryObject<EntityType<OrcaEntity>> ORCA =
-            ENTITY_TYPES.register("orca", () -> EntityType.Builder.of(OrcaEntity::new, MobCategory.WATER_CREATURE).sized(3.5f, 1.4f).build("orca"));
+            OCEANIC_ENTITY_TYPES.register("orca", () -> EntityType.Builder.of(OrcaEntity::new, MobCategory.WATER_CREATURE).sized(3.5f, 1.4f).build("orca"));
     public static final RegistryObject<EntityType<KelpFishEntity>> KELPFISH =
-            ENTITY_TYPES.register("kelpfish", () -> EntityType.Builder.of(KelpFishEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.3f).build("kelpfish"));
+            OCEANIC_ENTITY_TYPES.register("kelpfish", () -> EntityType.Builder.of(KelpFishEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.3f).build("kelpfish"));
 
     public static void register(IEventBus eventBus) {
-        ENTITY_TYPES.register(eventBus);
+        OCEANIC_ENTITY_TYPES.register(eventBus);
     }
 }
