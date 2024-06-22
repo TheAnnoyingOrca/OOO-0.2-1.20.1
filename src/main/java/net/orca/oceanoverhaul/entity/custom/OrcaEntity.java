@@ -92,7 +92,6 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         super(pEntityType, pLevel);
         this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
-        bodypoint = MathHelpers.rotateAroundCenterFlatDeg(this.position(), this.position().subtract(tail0Offset), (double) -this.getYRot());
 
 
     }
@@ -305,17 +304,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
         }
     }
-    public void Vec3 bodypoint;
-    public void Vec3 tailpoint;
-    public void Vec3 flukepoint;
-    public void Vec3 fluketippoint;
-    public static Vec3 rotateAroundCenter3dDeg(Vec3 center, Vec3 me, float yRot, float xRot) {
-        yRot = -(Mth.DEG_TO_RAD*yRot);
-        xRot = -(Mth.DEG_TO_RAD*xRot);
 
-
-
-    }
 
 
 

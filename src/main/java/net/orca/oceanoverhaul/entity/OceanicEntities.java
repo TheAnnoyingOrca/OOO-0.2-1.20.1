@@ -19,6 +19,7 @@ public class OceanicEntities {
     public static final RegistryObject<EntityType<KelpFishEntity>> KELPFISH =
             OCEANIC_ENTITY_TYPES.register("kelpfish", () -> EntityType.Builder.of(KelpFishEntity::new, MobCategory.WATER_AMBIENT).sized(0.3f, 0.3f).build("kelpfish"));
 
+
     public static void register(IEventBus eventBus) {
         OCEANIC_ENTITY_TYPES.register(eventBus);
     }

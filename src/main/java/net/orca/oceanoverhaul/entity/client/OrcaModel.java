@@ -71,9 +71,9 @@ public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 				//this.animateWalk(OrcaAnimationDefinitions.swim, pLimbSwing, pLimbSwingAmount,2.0F, 2.5F);
 				//this.animate(pEntity.swimIdleAnimationState, OrcaAnimationDefinitions.swimIdle, pAgeInTicks);
 				this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
-				this.tail.xRot =-0.1F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
-				//this.tail.yRot = (-pHeadYaw/4*(3 - pLimbSwingAmount));
-				this.fluke.xRot = -0.5F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
+				this.tail.xRot =-0.2F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
+				//this.tail.yRot = (-pHeadYaw/2 * (3 - pLimbSwingAmount));
+				this.fluke.xRot = -0.4F * Mth.cos(+4.0F - pAgeInTicks * 0.3F);
 
 			}
 
@@ -84,11 +84,35 @@ public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 			//this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 2.5F);
 		//}
 
-
-
-
 		}
+	//@Override
+	//public void setCustomAnimations (T animatable, long instanceId, AnimationState<T> animationState) { if (!this.turnsHead)
+		//return;
+		//GeoBone head = (GeoBone) getAnimation Processor().getBone("Head");
+		//GeoBone body = (GeoBone) getAnimationProcessor().getBone ("Body");
+		//GeoBone legC = (GeoBone) getAnimation Processor().getBone("LegControl");
+		//GeoBone neck = (GeoBone) getAnimation Processor().getBone("Neck");
+		//if (head != null && body != null && legC != null && ! animatable.isVehicle()){ EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA); float headOffset = body.getRotX() * 1;
 
+		//float offsetYaw = entityData.netHeadYaw() * Mth.DEG_TO_RAD + headOffset; offsetYaw = (float) Mth.clamp (offsetYaw, -0.7, 0.7)
+		//body.setRotY(offsetYaw);
+		//legC.setRotY(offsetYaw);
+		//offsetYaw = (float) Mth.clamp (offsetYaw, -0.4, 0.4);
+
+		//head.setRotY(offsetYaw);
+		//neck.setRotY(offsetYaw);
+		//} else if (animatable.is Vehicle()) {
+		//	EntityModelData entityData = animationState.getData(DataTickets.ENTITY_MODEL_DATA);
+		//} float headOffset = body.getRotX() * 1;
+		//float offSet Yaw = entityData.net Head Yaw() * Mth.DEG_TO_RAD + headOffset;
+		//offsetYaw = (float) Mth.clamp (offsetYaw, -0.7, 0.7);
+		//body.setRotY(offsetYaw);
+		//legC.setRotY(offsetYaw);
+		//LivingEntity entity = animatable.getControlling Passenger();
+		//if (entity != null) {
+		//	offsetYaw = (float) Mth.clamp (offsetYaw, -0.4, 0.4);
+		//} head.setRotX((float) (entity.getLookAngle().y)); neck.setRotX(((float) entity.getLookAngle().y));
+	//}
 
 	private static final Vector3f ANIMATION_VECTOR_CACHE = new Vector3f();
 
