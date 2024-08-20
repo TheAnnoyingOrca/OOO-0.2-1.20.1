@@ -145,16 +145,15 @@ public class KelpFishEntity extends OceanicAbstractFish {
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @org.jetbrains.annotations.Nullable SpawnGroupData spawnGroupData, @org.jetbrains.annotations.Nullable CompoundTag compoundTag) {
-        if (mobSpawnType == MobSpawnType.BUCKET && compoundTag != null && compoundTag.contains("BucketVariantTag", 3)) {
-            this.setVariant(KelpFishVariant.byId(compoundTag.getInt("BucketVariantTag")));
-            return spawnGroupData;
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag) {
+        if (mobSpawnType == MobSpawnType.BUCKET && compoundTag != null && compoundTag.contains(BUCKET_VARIANT_TAG, 3)) {
+            this.setVariant(KelpFishVariant.byId(compoundTag.getInt(BUCKET_VARIANT_TAG)));
         } else {
 
             KelpFishVariant variant;
 
             if (spawnGroupData instanceof KelpFishEntity.KelpFishGroupData) {
-                KelpFishEntity.KelpFishGroupData groupData = (KelpFishEntity.KelpFishGroupData)spawnGroupData;
+                KelpFishEntity.KelpFishGroupData groupData = (KelpFishEntity.KelpFishGroupData) spawnGroupData;
                 variant = groupData.variant;
             } else {
                 variant = Util.getRandom(KelpFishVariant.values(), serverLevelAccessor.getRandom());
@@ -183,6 +182,7 @@ public class KelpFishEntity extends OceanicAbstractFish {
             this.variant = variant;
         }
     }
+
     public void travel(@NotNull Vec3 pTravelVector) {
         if (this.isEffectiveAi() && this.isInWater()) {
             this.moveRelative(this.getSpeed(), pTravelVector);

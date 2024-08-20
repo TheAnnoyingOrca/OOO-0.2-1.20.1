@@ -58,6 +58,8 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public class OrcaEntity extends WaterAnimal implements NeutralMob {
+    public float prevTilt;
+    public float tilt;
 
     private static final EntityDataAccessor<Integer> MOISTNESS_LEVEL = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
@@ -305,7 +307,29 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         }
     }
 
+    public void aiStep() {
+        super.aiStep();
 
+        prevTilt = tilt;
+        if (this.isInWater()) {
+            final float v = Mth.degreesDifference(this.getYRot(), yRotO);
+            if (Math.abs(v) > 1) {
+                if (Math.abs(tilt) < 25) {
+                    tilt -= Math.signum(v);
+                }
+            } else {
+                if (Math.abs(tilt) > 0) {
+                    final float tiltSign = Math.signum(tilt);
+                    tilt -= tiltSign * 0.85F;
+                    if (tilt * tiltSign < 0) {
+                        tilt = 0;
+                    }
+                }
+            }
+        } else {
+            tilt = 0;
+        }
+    }
 
 
 
