@@ -60,6 +60,7 @@ import java.util.function.Predicate;
 public class OrcaEntity extends WaterAnimal implements NeutralMob {
     public float prevTilt;
     public float tilt;
+    public static final int MAX_HEAD_Y_ROT = 30;
 
     private static final EntityDataAccessor<Integer> MOISTNESS_LEVEL = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
@@ -92,7 +93,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     public OrcaEntity(EntityType<? extends WaterAnimal> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 120, 10, 0.02F, 0.1F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
 
 
@@ -463,7 +464,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
             if (this.player == null) {
                 return false;
             } else {
-                return this.player.isSwimming() && this.orcaentity.getTarget() != this.player;
+                return this.player.isSwimming() && this.orcaentity.getTarget() != this.player && this.orcaentity.isTrusting();
             }
         }
 
@@ -487,10 +488,10 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
                 this.orcaentity.addEffect(new MobEffectInstance(OceanicEffects.SYNERGY.get(), 250));
                 this.player.addEffect(new MobEffectInstance(OceanicEffects.SYNERGY.get(), 250));
 
-                }else {
-                    if (this.player.isSwimming() && this.player.level().random.nextInt(6) == 0) {
-                        this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100, 0, false, false, false), this.orcaentity);
-                    }
+                //}else {
+                    //if (this.player.isSwimming() && this.player.level().random.nextInt(6) == 0) {
+                    //    this.player.addEffect(new MobEffectInstance(MobEffects.DOLPHINS_GRACE, 100, 0, false, false, false), this.orcaentity);
+                    //}
                 }
 
 

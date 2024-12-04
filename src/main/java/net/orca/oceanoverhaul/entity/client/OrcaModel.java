@@ -70,15 +70,21 @@ public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 			if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
 				//this.animateWalk(OrcaAnimationDefinitions.swim, pLimbSwing, pLimbSwingAmount,2.0F, 2.5F);
 				//this.animate(pEntity.swimIdleAnimationState, OrcaAnimationDefinitions.swimIdle, pAgeInTicks);
-				this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.3F);
-				this.tail.xRot =-0.2F * Mth.cos(+2.0F - pAgeInTicks * 0.3F);
-				//this.tail.yRot = (-pHeadYaw/2 * (3 - pLimbSwingAmount));
-				this.fluke.xRot = -0.4F * Mth.cos(+4.0F - pAgeInTicks * 0.3F);
+				this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.2F);
+				this.tail.yRot = -(pEntity.tilt * ((float) Math.PI / 180F));
+				this.fluke.yRot = -(pEntity.tilt * ((float) Math.PI / 180F));
+				this.tail.xRot =-0.2F * Mth.cos(+2.0F - pAgeInTicks * 0.2F)+(-(pHeadPitch * ((float) Math.PI / 180F)/2));
+				this.fluke.xRot = -0.4F * Mth.cos(+4.0F - pAgeInTicks * 0.2F) + (-(pHeadPitch * ((float) Math.PI / 180F)/2));
+				//
 
 			}
 
 
+		} else {
+			this.tail.xRot = -(pHeadPitch * ((float) Math.PI / 180F)/2);
+			this.fluke.xRot = -(pHeadPitch * ((float) Math.PI / 180F)/2);
 		}
+
 
 		//if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
 			//this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 2.5F);
