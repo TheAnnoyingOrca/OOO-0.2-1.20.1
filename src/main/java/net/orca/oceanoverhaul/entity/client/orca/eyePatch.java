@@ -4,18 +4,18 @@ import java.util.Arrays;
 import java.util.Comparator;
 
 public enum eyePatch {
-    MISCHIEF(1),
-    WORRYWORT(2),
-    STYLISH(3),
-    SLENDER(4),
-    TINY(5),
-    CONTENT(6),
-    NOSTALGIC(7),
-    RAISED(8),
-    SEA_BASIN(9),
-    SLANTED(10),
-    SLEAK(11),
-    TRAILING(12);
+    MISCHIEF(8),
+    WORRYWORT(8),
+    STYLISH(8),
+    SLENDER(8),
+    //TINY(5),
+    CONTENT(8),
+    NOSTALGIC(8),
+    //RAISED(8),
+    //SEA_BASIN(9),
+    //SLANTED(10),
+    SLEAK(8);
+    //TRAILING(8);
 
     private static final net.orca.oceanoverhaul.entity.client.orca.eyePatch[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(net.orca.oceanoverhaul.entity.client.orca.eyePatch::getId)).toArray((p_30873_) -> {
         return new net.orca.oceanoverhaul.entity.client.orca.eyePatch[p_30873_];

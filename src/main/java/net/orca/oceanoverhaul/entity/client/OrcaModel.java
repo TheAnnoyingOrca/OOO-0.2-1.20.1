@@ -18,13 +18,17 @@ import static org.joml.Math.clamp;
 
 public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 	public final ModelPart head;
+	private final ModelPart body;
 	private final ModelPart tail;
 	private final ModelPart fluke;
 
+
 	public OrcaModel(ModelPart root) {
 		this.head = root.getChild("head");
-		this.tail = head.getChild("tail");
+		this.body = head.getChild("body");
+		this.tail = body.getChild("tail");
 		this.fluke = tail.getChild("fluke");
+
 	}
 
 	public static LayerDefinition createBodyLayer() {
@@ -33,19 +37,22 @@ public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-14.0F, -22.0F, -29.5F, 28.0F, 22.0F, 59.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 24.0F, 0.0F));
+		PartDefinition head = partdefinition.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-		PartDefinition tail = head.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(87, 81).addBox(-6.0F, -4.5F, -3.0F, 12.0F, 9.0F, 25.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -5.5F, 29.5F));
+		PartDefinition body = head.addOrReplaceChild("body", CubeListBuilder.create().texOffs(8, 0).addBox(-10.0F, -22.0F, -29.5F, 20.0F, 22.0F, 59.0F, new CubeDeformation(0.0F))
+				.texOffs(0, 99).addBox(-4.0F, -8.0F, -33.5F, 8.0F, 8.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 0.0F));
+
+		PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(87, 81).addBox(-6.0F, -4.5F, -3.0F, 12.0F, 9.0F, 25.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -5.5F, 29.5F));
 
 		PartDefinition fluke = tail.addOrReplaceChild("fluke", CubeListBuilder.create().texOffs(0, 81).addBox(-20.0F, -1.0F, 0.0F, 40.0F, 2.0F, 16.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.5F, 19.0F));
 
-		PartDefinition dorsalFin = head.addOrReplaceChild("dorsalFin", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, -19.0F, 0.0F, 2.0F, 19.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -22.0F, 7.5F, -0.1309F, 0.0F, 0.0F));
+		PartDefinition dorsalFin = body.addOrReplaceChild("dorsalFin", CubeListBuilder.create().texOffs(0, 0).addBox(-1.0F, -19.0F, 0.0F, 2.0F, 19.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -22.0F, 7.5F));
 
-		PartDefinition flipperLeft = head.addOrReplaceChild("flipperLeft", CubeListBuilder.create(), PartPose.offset(14.0F, 0.0F, -6.0F));
+		PartDefinition flipperLeft = body.addOrReplaceChild("flipperLeft", CubeListBuilder.create(), PartPose.offset(10.0F, 0.0F, -8.0F));
 
 		PartDefinition flipperLeft_r1 = flipperLeft.addOrReplaceChild("flipperLeft_r1", CubeListBuilder.create().texOffs(115, 0).addBox(-1.0F, -1.0F, -1.0F, 23.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 1.0F, 0.0F, -0.4363F, 0.7854F));
 
-		PartDefinition flipperRight = head.addOrReplaceChild("flipperRight", CubeListBuilder.create(), PartPose.offset(-14.0F, 0.0F, -6.0F));
+		PartDefinition flipperRight = body.addOrReplaceChild("flipperRight", CubeListBuilder.create(), PartPose.offset(-10.0F, 0.0F, -8.0F));
 
 		PartDefinition flipperRight_r1 = flipperRight.addOrReplaceChild("flipperRight_r1", CubeListBuilder.create().texOffs(115, 0).mirror().addBox(-22.0F, -1.0F, 0.0F, 23.0F, 2.0F, 17.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, 0.0F, 0.4363F, -0.7854F));
 
@@ -70,7 +77,7 @@ public class OrcaModel<T extends OrcaEntity> extends HierarchicalModel<T> {
 			if (pEntity.getDeltaMovement().horizontalDistanceSqr() > 1.0E-7D) {
 				//this.animateWalk(OrcaAnimationDefinitions.swim, pLimbSwing, pLimbSwingAmount,2.0F, 2.5F);
 				//this.animate(pEntity.swimIdleAnimationState, OrcaAnimationDefinitions.swimIdle, pAgeInTicks);
-				this.head.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.2F);
+				this.body.xRot += -0.05F - 0.05F * Mth.cos(pAgeInTicks * 0.2F);
 				this.tail.yRot = -(pEntity.tilt * ((float) Math.PI / 180F));
 				this.fluke.yRot = -(pEntity.tilt * ((float) Math.PI / 180F));
 				this.tail.xRot =-0.2F * Mth.cos(+2.0F - pAgeInTicks * 0.2F)+(-(pHeadPitch * ((float) Math.PI / 180F)/2));

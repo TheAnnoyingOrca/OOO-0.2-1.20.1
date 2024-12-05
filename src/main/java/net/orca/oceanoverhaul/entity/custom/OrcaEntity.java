@@ -45,6 +45,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.phys.Vec3;
 import net.orca.oceanoverhaul.effect.OceanicEffects;
+import net.orca.oceanoverhaul.entity.client.orca.body;
 import net.orca.oceanoverhaul.entity.client.orca.eyePatch;
 import net.orca.oceanoverhaul.entity.client.orca.saddlePatch;
 import net.orca.oceanoverhaul.entity.goals.OrcaBreathAirGoal;
@@ -395,11 +396,13 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         return this.entityData.get(DATA_ID_TYPE_VARIANT);
     }
 
-    private void seteyePatchandsaddlePatch(eyePatch peyePatch, saddlePatch psaddlePatch) {
-        this.setTypePattern(peyePatch.getId() << 8 & '\uff00' | psaddlePatch.getId() << 8 & '\uff00');
+    private void setOrcaPattern(eyePatch peyePatch, saddlePatch psaddlePatch, body pbody) {
+        this.setTypePattern(peyePatch.getId() << 8 & '\uff00' | psaddlePatch.getId() << 8 & '\uff00' | pbody.getId() << 8 & '\uff00');
     }
 
-
+    public body getbody() {
+        return body.byId((this.getTypePattern() & '\uff00') >> 8);
+    }
     public eyePatch geteyePatch() {
         return eyePatch.byId((this.getTypePattern() & '\uff00') >> 8);
     }
@@ -413,7 +416,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         RandomSource randomsource = pLevel.getRandom();
 
 
-        this.seteyePatchandsaddlePatch(Util.getRandom(eyePatch.values(), randomsource), Util.getRandom(saddlePatch.values(), randomsource));
+        this.setOrcaPattern(Util.getRandom(eyePatch.values(), randomsource), Util.getRandom(saddlePatch.values(), randomsource), Util.getRandom(body.values(), randomsource));
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 

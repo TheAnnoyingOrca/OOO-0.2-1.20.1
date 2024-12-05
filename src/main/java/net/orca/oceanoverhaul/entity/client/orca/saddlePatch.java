@@ -9,12 +9,12 @@ public enum saddlePatch {
     WORRYWORT(2),
     STYLISH(3),
     SLENDER(4),
-    SCARRED(5),
-    QUAINT(6),
-    SWIRL(7),
-    CURVY(8),
-    HOMELY(9),
-    SPIKED(10);
+    //TACTICAL(5),
+    //QUAINT(6),
+    SWIRL(5),
+    CURVY(6),
+    HOMELY(7),
+    SPIKED(8);
 
     private static final saddlePatch[] BY_ID = Arrays.stream(values()).sorted(Comparator.comparingInt(saddlePatch::getId)).toArray((p_30873_) -> {
         return new saddlePatch[p_30873_];
