@@ -20,14 +20,7 @@ import java.util.Map;
 
 @OnlyIn(Dist.CLIENT)
 public class OrcaBodyLayer extends RenderLayer<OrcaEntity, OrcaModel<OrcaEntity>> {
-    private static final Map<body, ResourceLocation> LOCATION_BY_BODY = Util.make(Maps.newEnumMap(body.class), (p_117069_) -> {
 
-        p_117069_.put(body.SCARRED, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/bodycolor/body_scarred.png"));
-        p_117069_.put(body.YELLER, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/bodycolor/body_yeller.png"));
-        p_117069_.put(body.SNUBBY, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/bodycolor/body_snubby.png"));
-        p_117069_.put(body.HOMEY, new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/bodycolor/body_homey.png"));
-
-    });
 
     public OrcaBodyLayer(RenderLayerParent<OrcaEntity, OrcaModel<OrcaEntity>> pRenderer) {
         super(pRenderer);
@@ -35,7 +28,8 @@ public class OrcaBodyLayer extends RenderLayer<OrcaEntity, OrcaModel<OrcaEntity>
 
     @Override
     public void render(PoseStack pPoseStack, MultiBufferSource pBuffer, int pPackedLight, OrcaEntity pLivingEntity, float pLimbSwing, float pLimbSwingAmount, float pPartialTick, float pAgeInTicks, float pNetHeadYaw, float pHeadPitch) {
-    ResourceLocation resourcelocation = LOCATION_BY_BODY.get(pLivingEntity.getbody());
+    ResourceLocation resourcelocation = new ResourceLocation(OceanOverhaul.MOD_ID, "textures/entity/orca/bodycolor/body_"+ pLivingEntity.getBodyName(pLivingEntity.getBodyType())+ ".png");
+
         if (resourcelocation != null && !pLivingEntity.isInvisible()) {
             VertexConsumer vertexconsumer = pBuffer.getBuffer(RenderType.entityTranslucent(resourcelocation));
             this.getParentModel().renderToBuffer(pPoseStack, vertexconsumer, pPackedLight, LivingEntityRenderer.getOverlayCoords(pLivingEntity, 0.0F), 1.0F, 1.0F, 1.0F, 1.0F);

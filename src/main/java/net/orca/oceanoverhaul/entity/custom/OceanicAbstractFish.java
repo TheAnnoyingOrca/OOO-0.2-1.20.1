@@ -29,9 +29,7 @@ public abstract class OceanicAbstractFish extends AbstractFish {
         return this.getMaxSchoolSize();
     }
 
-    public int getMaxSchoolSize() {
-        return super.getMaxSpawnClusterSize();
-    }
+    public abstract int getMaxSchoolSize();
 
     public boolean isFollower() {
         return this.leader != null && this.leader.isAlive();

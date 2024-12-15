@@ -32,6 +32,9 @@ public class OceanicItems {
                     new Item.Properties()));
     public static final RegistryObject<Item> KELPFISH_BUCKET = OCEANIC_ITEMS.register("kelpfish_bucket",
             () -> new ItemModFishBucket(OceanicEntities.KELPFISH, Fluids.WATER, new Item.Properties()));
+    public static final RegistryObject<Item> PYGMYS_SPAWN_EGG = OCEANIC_ITEMS.register("pygmys_spawn_egg",
+            () -> new ForgeSpawnEggItem(OceanicEntities.PYGMYS, 0Xd2d5d9, 0X3a4456,
+                    new Item.Properties()));
 
     public static final RegistryObject<Item> BANNER_PATTERN_ORCA = OCEANIC_ITEMS.register("banner_pattern_orca", () -> new BannerPatternItem(OceanTags.PATTERN_ITEM_ORCA, new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> BANNER_PATTERN_LANCET = OCEANIC_ITEMS.register("banner_pattern_lancet", () -> new BannerPatternItem(OceanTags.PATTERN_ITEM_LANCET, new Item.Properties().stacksTo(1)));

@@ -65,7 +65,10 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     private static final EntityDataAccessor<Integer> MOISTNESS_LEVEL = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
-    private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
+    //private static final EntityDataAccessor<Integer> DATA_ID_TYPE_VARIANT = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> BODY_TYPE = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> EYEPATCH_TYPE = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
+    private static final EntityDataAccessor<Integer> SADDLEPATCH_TYPE = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
     private static final EntityDataAccessor<Integer> DATA_REMAINING_ANGER_TIME = SynchedEntityData.defineId(OrcaEntity.class, EntityDataSerializers.INT);
 
@@ -134,7 +137,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         super.defineSynchedData();
         this.entityData.define(MOISTNESS_LEVEL, 2400);
 
-        this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
+        //this.entityData.define(DATA_ID_TYPE_VARIANT, 0);
 
         this.entityData.define(DATA_REMAINING_ANGER_TIME, 0);
         this.entityData.define(DATA_TRUSTING, false);
@@ -143,6 +146,10 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         this.entityData.define(DATA_TRUSTED_ID_1, Optional.empty());
 
         this.entityData.define(DATA_FLAGS_ID, (byte)0);
+
+        this.entityData.define(BODY_TYPE, 0);
+        this.entityData.define(EYEPATCH_TYPE, 0);
+        this.entityData.define(SADDLEPATCH_TYPE, 0);
     }
     private boolean isMovingInWater() {
         return this.getDeltaMovement().horizontalDistanceSqr() > 1.0E-6D && this.isInWaterOrBubble();
@@ -328,7 +335,7 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
                     }
                 }
             }
-        } else {
+        } else{
             tilt = 0;
         }
     }
@@ -364,7 +371,9 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     public void addAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.addAdditionalSaveData(pCompound);
-        pCompound.putInt("Pattern", this.getTypePattern());
+        pCompound.putInt("BodyPattern", this.getBodyType());
+        pCompound.putInt("EyePattern", this.getEyePatchType());
+        pCompound.putInt("SaddlePattern", this.getSaddlePatchType());
         pCompound.putBoolean("Trusting", this.isTrusting());
         List<UUID> list = this.getTrustedUUIDs();
         ListTag listtag = new ListTag();
@@ -379,7 +388,9 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
 
     public void readAdditionalSaveData(@NotNull CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
-        this.setTypePattern(pCompound.getInt("Pattern"));
+        this.setBodyType(pCompound.getInt("BodyPattern"));
+        this.setEyePatchType(pCompound.getInt("EyePattern"));
+        this.setSaddlePatchType(pCompound.getInt("SaddlePattern"));
         this.setTrusting(pCompound.getBoolean("Trusting"));
         ListTag listtag = pCompound.getList("Trusted", 11);
 
@@ -388,35 +399,30 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
         }
     }
 
-    private void setTypePattern(int pTypePattern) {
-        this.entityData.set(DATA_ID_TYPE_VARIANT, pTypePattern);
-    }
+    public void setBodyType(int variant) {
+        this.entityData.set(BODY_TYPE, variant);}
 
-    private int getTypePattern() {
-        return this.entityData.get(DATA_ID_TYPE_VARIANT);
-    }
+    public int getBodyType() {
+        return this.entityData.get(BODY_TYPE);}
+    public void setEyePatchType(int variant) {
+        this.entityData.set(EYEPATCH_TYPE, variant);}
 
-    private void setOrcaPattern(eyePatch peyePatch, saddlePatch psaddlePatch, body pbody) {
-        this.setTypePattern(peyePatch.getId() << 8 & '\uff00' | psaddlePatch.getId() << 8 & '\uff00' | pbody.getId() << 8 & '\uff00');
-    }
+    public int getEyePatchType() {
+        return this.entityData.get(EYEPATCH_TYPE);}
+    public void setSaddlePatchType(int variant) {
+        this.entityData.set(SADDLEPATCH_TYPE, variant);}
 
-    public body getbody() {
-        return body.byId((this.getTypePattern() & '\uff00') >> 8);
-    }
-    public eyePatch geteyePatch() {
-        return eyePatch.byId((this.getTypePattern() & '\uff00') >> 8);
-    }
-
-    public saddlePatch getsaddlePatch() {
-        return saddlePatch.byId((this.getTypePattern() & '\uff00') >> 8);
-    }
+    public int getSaddlePatchType() {
+        return this.entityData.get(SADDLEPATCH_TYPE);}
 
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor pLevel, @NotNull DifficultyInstance pDifficulty, @NotNull MobSpawnType pReason, @Nullable SpawnGroupData pSpawnData, @Nullable CompoundTag pDataTag) {
         RandomSource randomsource = pLevel.getRandom();
 
 
-        this.setOrcaPattern(Util.getRandom(eyePatch.values(), randomsource), Util.getRandom(saddlePatch.values(), randomsource), Util.getRandom(body.values(), randomsource));
+        this.setEyePatchType(this.random.nextInt(12));
+        this.setSaddlePatchType(this.random.nextInt(11));
+        this.setBodyType(this.random.nextInt(4));
         return super.finalizeSpawn(pLevel, pDifficulty, pReason, pSpawnData, pDataTag);
     }
 
@@ -672,5 +678,47 @@ public class OrcaEntity extends WaterAnimal implements NeutralMob {
     }
     void setDefending(boolean pDefending) {
         this.setFlag(128, pDefending);
+    }
+
+    public static String getBodyName(int i){
+        return switch (i){
+            case 1 -> "scarred";
+            case 2 -> "yeller";
+            case 3 -> "snubby";
+            default -> "homey";
+        };
+    }
+
+    public static String getEyePatchName(int i){
+        return switch (i){
+            case 1 -> "worrywort";
+            case 2 -> "stylish";
+            case 3 -> "slender";
+            case 4 -> "tiny";
+            case 5 -> "content";
+            case 6 -> "nostalgic";
+            case 7 -> "raised";
+            case 8 -> "sea_basin";
+            case 9 -> "slanted";
+            case 10 -> "sleak";
+            case 11 -> "trailing";
+            default -> "mischief";
+        };
+    }
+
+    public static String getSaddlePatchName(int i){
+        return switch (i){
+            case 1 -> "mischief";
+            case 2 -> "worrywort";
+            case 3 -> "stylish";
+            case 4 -> "slender";
+            case 5 -> "tactical";
+            case 6 -> "quaint";
+            case 7 -> "swirl";
+            case 8 -> "curvy";
+            case 9 -> "homely";
+            case 10 -> "spiked";
+            default -> "";
+        };
     }
 }

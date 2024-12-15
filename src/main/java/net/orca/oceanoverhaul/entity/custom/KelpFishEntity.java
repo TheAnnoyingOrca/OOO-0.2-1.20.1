@@ -19,6 +19,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
 import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.animal.AbstractSchoolingFish;
 import net.minecraft.world.entity.animal.Bucketable;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.item.ItemStack;
@@ -143,21 +144,25 @@ public class KelpFishEntity extends OceanicAbstractFish {
         return SoundEvents.SALMON_FLOP;
     }
 
+    @Override
+    public int getMaxSchoolSize() {
+        return 7;
+    }
+
     @Nullable
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData, @Nullable CompoundTag compoundTag) {
+
         if (mobSpawnType == MobSpawnType.BUCKET && compoundTag != null && compoundTag.contains(BUCKET_VARIANT_TAG, 3)) {
             this.setVariant(KelpFishVariant.byId(compoundTag.getInt(BUCKET_VARIANT_TAG)));
         } else {
-
             KelpFishVariant variant;
-
-            if (spawnGroupData instanceof KelpFishEntity.KelpFishGroupData) {
-                KelpFishEntity.KelpFishGroupData groupData = (KelpFishEntity.KelpFishGroupData) spawnGroupData;
+            if (spawnGroupData instanceof KelpFishGroupData groupData) {
                 variant = groupData.variant;
+                this.startFollowing(groupData.leader);
             } else {
                 variant = Util.getRandom(KelpFishVariant.values(), serverLevelAccessor.getRandom());
-                spawnGroupData = new KelpFishEntity.KelpFishGroupData(variant);
+                spawnGroupData = new KelpFishGroupData(this, variant);
             }
 
             this.setVariant(variant);
@@ -176,12 +181,16 @@ public class KelpFishEntity extends OceanicAbstractFish {
     private boolean isSchool = true;
 
     private static class KelpFishGroupData implements SpawnGroupData {
+        public final KelpFishEntity leader;
         final KelpFishVariant variant;
 
-        KelpFishGroupData(KelpFishVariant variant) {
+        KelpFishGroupData(KelpFishEntity pLeader, KelpFishVariant variant) {
+            this.leader = pLeader;
             this.variant = variant;
+
         }
     }
+
 
     public void travel(@NotNull Vec3 pTravelVector) {
         if (this.isEffectiveAi() && this.isInWater()) {

@@ -24,6 +24,7 @@ public class OceanicCreativeModeTab {
                         pOutput.accept(OceanicItems.KELPFISH_BUCKET.get());
                         pOutput.accept(OceanicItems.KELPFISH_SPAWN_EGG.get());
                         pOutput.accept(OceanicItems.ORCA_SPAWN_EGG.get());
+                        pOutput.accept(OceanicItems.PYGMYS_SPAWN_EGG.get());
                         pOutput.accept(OceanicBlocks.WILD_KELP_BLOCK.get());
                         pOutput.accept(OceanicBlocks.BUDDING_KELP_BLOCK.get());
                         pOutput.accept(OceanicBlocks.SEDIMENT.get());

@@ -13,6 +13,7 @@ public class OceanicEventBusClientEvents {
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event) {
         event.registerLayerDefinition(ModModelLayers.ORCA_LAYER, OrcaModel::createBodyLayer);
+        event.registerLayerDefinition(ModModelLayers.PYGMYS_LAYER, PygmySModel::createBodyLayer);
         event.registerLayerDefinition(ModModelLayers.ROCKFISH_LAYER, KelpFishModel::createRockFishBodyLayer);
         event.registerLayerDefinition(ModModelLayers.RONQUIL_LAYER, KelpFishModel::createRonquilBodyLayer);
         event.registerLayerDefinition(ModModelLayers.SCULPIN_LAYER, KelpFishModel::createSculpinBodyLayer);
@@ -36,5 +37,6 @@ public class OceanicEventBusClientEvents {
     public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
         event.registerEntityRenderer(OceanicEntities.ORCA.get(), OrcaRenderer::new);
         event.registerEntityRenderer(OceanicEntities.KELPFISH.get(), KelpFishRenderer::new);
+        event.registerEntityRenderer(OceanicEntities.PYGMYS.get(), PygmySRenderer::new);
     }
 }

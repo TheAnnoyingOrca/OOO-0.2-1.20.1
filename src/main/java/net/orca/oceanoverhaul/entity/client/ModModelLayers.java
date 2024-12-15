@@ -10,6 +10,8 @@ public class ModModelLayers {
 
     public static final ModelLayerLocation ORCA_LAYER = new ModelLayerLocation(
             new ResourceLocation(OceanOverhaul.MOD_ID, "orca_layer"), "main");
+    public static final ModelLayerLocation PYGMYS_LAYER = new ModelLayerLocation(
+            new ResourceLocation(OceanOverhaul.MOD_ID, "pygmys_layer"), "main");
     //public static final ModelLayerLocation ROCKFISH_LAYER = new ModelLayerLocation(
             //new ResourceLocation(oceanoverhaul.MOD_ID, "rockfish_layer"), "main");
     public static final ModelLayerLocation ROCKFISH_LAYER = create("rockfish_layer");

@@ -21,6 +21,7 @@ import net.orca.oceanoverhaul.entity.OceanicEntities;
 import net.orca.oceanoverhaul.entity.client.KelpFishRenderer;
 import net.orca.oceanoverhaul.entity.client.OrcaRenderer;
 //import net.orca.oceanoverhaul.feature.OceanicAquaticFeatures;
+import net.orca.oceanoverhaul.entity.client.PygmySRenderer;
 import net.orca.oceanoverhaul.feature.OceanicFeatures;
 import net.orca.oceanoverhaul.item.OceanicItems;
 import net.orca.oceanoverhaul.misc.OceanicBanner;
@@ -81,6 +82,7 @@ public class OceanOverhaul {
             ItemBlockRenderTypes.setRenderLayer(OceanicBlocks.ANEMONE_MAGENTA.get(), RenderType.cutout());
             EntityRenderers.register(OceanicEntities.ORCA.get(), OrcaRenderer::new);
             EntityRenderers.register(OceanicEntities.KELPFISH.get(), KelpFishRenderer::new);
+            EntityRenderers.register(OceanicEntities.PYGMYS.get(), PygmySRenderer::new);
         }
     }
 
